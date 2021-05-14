@@ -1,4 +1,4 @@
-
+daxt function all
 DAX
 1. Text Functions
 Function			Description
