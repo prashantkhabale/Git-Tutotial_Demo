@@ -1,0 +1,46 @@
+Sub extractdata()
+
+Dim rg As Range
+Dim lookrg As Range
+Dim result As String
+
+Set lookrg = Sheets("Q4").Range("a2:a5")
+
+
+
+For Each rg In lookrg
+    If rg.Value <> "" Then
+        rg.Offset(0, 1) = getalpha(rg.Value)
+        rg.Offset(0, 2).Value = getnum(rg.Value)
+       
+     End If
+Next
+     
+End Sub
+
+Function getnum(cellref As String)
+
+Dim StringLength As Integer
+StringLength = Len(cellref)
+
+For i = 1 To StringLength
+If IsNumeric(Mid(cellref, i, 1)) Then result = result & Mid(cellref, i, 1)
+Next i
+getnum = result
+
+End Function
+
+Function getalpha(cellref As String)
+
+Dim StringLength As Integer
+StringLength = Len(cellref)
+
+For i = 1 To StringLength
+If Not (IsNumeric(Mid(cellref, i, 1))) Then result = result & Mid(cellref, i, 1)
+
+Next i
+getalpha = result
+
+End Function
+
+

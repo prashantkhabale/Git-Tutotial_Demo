@@ -1,0 +1,158 @@
+
+What is Data Warehousing?
+
+- A Data Warehousing (DW) is process for collecting and managing data from varied sources to provide meaningful business insights. A Data warehouse is typically used to connect and analyze business data from heterogeneous sources. The data warehouse is the core of the BI system which is built for data analysis and reporting.
+- However, the data warehouse is not a product but an environment
+- However, the real concept was given by Inmon Bill. He was considered as a father of data warehouse. 
+- Data may be: Structured , Semi-structured, Unstructured data
+
+Data warehouse system is also known by the following name:
+
+Decision Support System (DSS)
+Executive Information System
+Management Information System
+Business Intelligence Solution
+Analytic Application
+Data Warehouse
+_______________________________________________________________________________________________________________________________________________________________________
+Types of Data Warehouse
+
+- Enterprise Data Warehouse (EDW):- Enterprise Data Warehouse (EDW) is a centralized warehouse.
+- Operational Data Store: - Operational Data Store, which is also called ODS, are nothing but data store required when neither Data warehouse nor OLTP systems support organizations reporting needs.
+- Data Mart:- A data mart is a subset of the data warehouse.
+
+Components of Data warehouse
+- Load manager: Load manager is also called the front component.
+- Warehouse Manager: Warehouse manager performs operations associated with the management of the data in the warehouse.creating index & views , archiving and baking-up data.
+- Query Manager: Query manager is also known as backend component.
+
+
+Data Warehouse Architecture
+- Single-tier architecture
+- Two-tier architecture
+- Three-Tier Data Warehouse Architecture - It consists of the Top, Middle and Bottom Tier.
+Bottom Tier,Middle Tier,Top-Tier
+
+ETL vs ELT: Must Know Differences
+- ETL is an abbreviation of Extract, Transform and Load. In this process, an ETL tool extracts the data from different RDBMS source systems then transforms the data like applying calculations, concatenations, etc. and then load the data into the Data Warehouse system.
+- ELT is a different method of looking at the tool approach to data movement. Instead of transforming the data before it's written, ELT lets the target system to do the transformation. The data first copied to the target and then transformed in place.
+_______________________________________________________________________________________________________________________________________________________________________
+
+What is Data Modelling?
+
+- Data modeling (data modelling) is the process of creating a data model for the data to be stored in a database. This data model is a conceptual representation of Data objects, the associations between different data objects, and the rules
+- The two types of Data Modeling Techniques are
+
+-- Entity Relationship (E-R) Model
+-- UML (Unified Modelling Language)
+
+Types of Data Models
+
+- Conceptual Data Model (Domain models) : - This model is typically created by Business stakeholders and Data Architects. The purpose is to organize, scope and define business concepts and rules.
+
+- Logical Data Model: - This model is typically created by Data Architects and Business Analysts. The purpose is to developed technical map of rules and data structures.
+
+- Physical Data Model: - This model is typically created by DBA and developers. The purpose is actual implementation of the database.
+_______________________________________________________________________________________________________________________________________________________________________
+What is OLAP?
+
+- Online Analytical Processing (OLAP) is a category of software that allows users to analyze information from multiple database systems at the same time. It is a technology that enables analysts to extract and view business data from different points of view.
+- At the core of the OLAP concept, is an OLAP Cube. The OLAP cube is a data structure optimized for very quick data analysis.
+- OLAP Cube is also called the hypercube.
+
+Four types of analytical operations in OLAP are:
+
+Roll-up - Reducing dimensions
+Drill-down - Moving down the concept hierarchy & Increasing a dimension
+Slice and dice - Here, one dimension is selected, and a new sub-cube is created.This operation is similar to a slice. The difference in dice is you select 2 or more dimensions that result in the creation of a sub-cube.
+Pivot (rotate) - In Pivot, you rotate the data axes to provide a substitute presentation of data.
+
+Type of OLAP
+	
+- ROLAP
+- MOLAP
+- HOLAP
+- OTHERS - WOLAP , DOLAP , MOLAP,SOLAP
+
+What is OLTP?
+
+- OLTP is an operational system that supports transaction-oriented applications in a 3-tier architecture. It administers the day to day transaction of an organization. OLTP is basically focused on query processing, maintaining data integrity in multi-access environments as well as effectiveness that is measured by the total number of transactions per second. The full form of OLTP is Online Transaction Processing.
+
+
+OLTP vs OLAP: Difference Between OLTP and OLAP
+
+- Online Analytical Processing (OLAP) is a category of software tools that analyze data stored in a database whereas Online transaction processing (OLTP) supports transaction-oriented applications in a 3-tier architecture.
+
+- OLAP creates a single platform for all type of business analysis needs which includes planning, budgeting, forecasting, and analysis while OLTP is useful to administer day to day transactions of an organization.
+
+- OLAP is characterized by a large volume of data while OLTP is characterized by large numbers of short online transactions.
+
+- In OLAP, data warehouse is created uniquely so that it can integrate different data sources for building a consolidated database whereas OLTP uses traditional DBMS.
+_______________________________________________________________________________________________________________________________________________________________________
+What is Data Mart?
+
+- A Data Mart is focused on a single functional area of an organization and contains a subset of data stored in a Data Warehouse. A Data Mart is a condensed version of Data Warehouse and is designed for use by a specific department, unit or set of users in an organization. E.g., Marketing, Sales, HR or finance. It is often controlled by a single department in an organization.
+
+Types of Data Mart
+
+Dependent: - Dependent data marts are created by drawing data directly from operational, external or both sources.
+Independent: -  Independent data mart is created without the use of a central data warehouse.
+Hybrid: -  This type of data marts can take data from data warehouses or operational systems.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

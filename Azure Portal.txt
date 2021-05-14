@@ -1,0 +1,73 @@
+Azure Portal
+
+Resource group
+- It is a container that holds related resources for an Azure solution. In Azure, you logically group related resources such as storage accounts, virtual networks, and virtual machines (VMs) to deploy, manage, and maintain them as a single entity.
+
+- create storage account and blob containers in same resource group.
+- so we can upload files on that particular containers.
+
+Azure Data Factory
+
+- it is an cloud base ETL tool to transform data.
+- for creating data factory goto create new resources-- data factor
+- after creating goto Author & Monitor  tab so it will open new tab of dara factory
+- sign in account on azure portal must be member of the contributor or owner role, or an administrator of the Azure subscription.
+______________________________________________________________________________________________________________________________________________________________________
+Create a linked service
+- Goto manage tab of data factorty page -- new it will use from input and output of data.
+
+Create source and destination path
+- after that create two datasets path source and destination. if we not give file to source then it will perform on all files.
+
+Create pipeline
+- create pipeline and name that and add task from activity section and configure.
+
+Debug the pipeline
+- On the pipeline toolbar above the canvas, click Debug to trigger a test run.
+
+Trigger the pipeline manually
+- Before you trigger a pipeline, you must publish entities(linked services, datasets, pipelines)  to Data Factory. To publish, select Publish all on the top.
+
+Monitor the pipeline
+- Switch to the Monitor tab on the left. Use the Refresh button to refresh the list. and open particular pipeline
+
+Trigger the pipeline on a schedule
+- You can create a scheduler trigger to schedule the pipeline to run periodically (hourly, daily, and so on).
+- The trigger comes into effect only after you publish the solution to Data Factory, not when you save the trigger in the UI.
+______________________________________________________________________________________________________________________________________________________________________
+Azure Blob storage
+
+- Azure Blob storage is a feature of Microsoft Azure. It allows users to store large amounts of unstructured data on Microsoft's data storage platform. In this case, Blob stands for Binary Large Object, which includes objects such as images and multimedia files
+
+Integration Runtime (IR)
+
+- The Integration Runtime (IR) is the compute infrastructure used by Azure Data Factory to provide the following data integration capabilities across different network environments: ... It provides support for built-in connectors, format conversion, column mapping, and performant and scalable data transfer.
+
+Copy data from Onpremises Sql server to BLOB storage
+
+- first we have to create source linke service and for this we have to install integration runtime self hosted on local machine
+- we have to setup integration runtime for local computer.
+- give destination activity as blob storage
+______________________________________________________________________________________________________________________________________________________________________
+
+Azure key Vault
+
+- it is cloud services offer by azure to securly store your secrets in there database,
+- Azure Key Vault is a cloud service that provides a secure store for secrets. You can securely store keys, passwords, certificates, and other secrets. Azure key vaults may be created and managed through the Azure portal. In this quickstart, you create a key vault, then use it to store a secret.
+
+
+Azure Databriks
+
+- it is service for big data analytics, where there huge unstructure data need to be structure in meaningful model.
+- azure uses most popular opensource apache spark to process bigdata, azure databriks is nothing but the apache spark in azure cloud
+______________________________________________________________________________________________________________________________________________________________________
+System vriables in azure data factory
+
+- system variables available at three level pipline level, schedule trigger, tumbling window trigger level.
+
+
+
+
+
+
+

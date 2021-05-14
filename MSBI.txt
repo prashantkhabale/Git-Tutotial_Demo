@@ -1,0 +1,647 @@
+SSIS alwyas work on server
+
+creating project ( package ) in SSIS
+click on file -- new & choose type ie BI,c++, VB programmer
+
+In ssis package there are tabs like control flow, data flow,parameters,event handlers,package exloprer
+
+control flow
+
+- in control flow we have to add task for any step which we have to perform , there are so may task option available on ssis toolbox
+- there are right arrow on each task, for performing step step by or in sequance then drag this green arrow on other steps
+- we can also add annotation for better understanding of digrams. ( right click on page & select add annotation )
+- for adding actual task to data flow task double click that task & it will automatically goto data flow tab.
+- we can create three task in data flow other transform, other sources & destination. ( first connect with source & give transform data destination )
+
+connecting to server
+
+- in data flow we have to create source & destination Task , if we not link both then its will getting error.
+- first goto solution explorer & right click on connection manager & create new ( for connecting to sql server & MS access use OLEDB )
+- after that give server instance name if there is on local host then use - .\prashsql (instance name ) & choose database
+- GO to data flow & add OLE DB source & link creates connection manger to this OLE DB source & assign table from particular connection ( database )
+- after that create new connection for destination ( tranform data ) like excel , OLEDB , ODBC
+-  if we creating first excel destination task click on new its will automatically create new table then choose that table
+- after creating if you didn't save file then there will show * on page.
+-  after GO to pakage & excute
+__________________________________________________________________________________________________________________________________________________________________________________________
+
+Creating Basic Packages In SSIS
+
+for creating package --right click on ssis packages & create new
+- two option for creating connection  1- right click on connection manager folder 2 - bottom of the screen connection manger window right click
+- create new control flow task i e Data flow task ( in data flow task we have to give source & destination task assign connection to them )
+- we can run package using F5 key , Green button on top , right click on package , set as startup object.
+- if we want to excute any sql statement then add excute sql Task & change properties connection type,sql statment , connection
+- for checking data which are in between two task pipeline then right click on that & enable data viewer ( it will show data on pop-up window when we excute package )
+
+__________________________________________________________________________________________________________________________________________________________________________________________
+Basic Transformation in SSIS
+
+- for transaformation we have add transformation task between source & destination task
+- if source data value not able to convert into destination then its will give error.
+- DATA VIEWER option very useful we cant create table for destination at all time so we use UNION ALL as destination & enable data viewer
+
+Row Sampling & Percentage Sampling Tranformation
+- Row Sampling use for selecting random rows from data & split between selected & unselected data
+- percentage use for when we want 10% or 20% data 
+
+Union Two Table
+- for this add Two source assistant ( 2 table source )	
+- after link that data in union task & after union data to destination task
+
+Difference between synchronous and asynchronous transmission is 
+- In Synchronous data transfer, data is transmitted in the form of blocks or frames whereas in asynchronous data transfer, transmission is done in 1 byte or character at a time.
+- sort is asynchronous & union and aggreagate partial blocking
+__________________________________________________________________________________________________________________________________________________________________________________________
+Creating variables in SSIS
+
+- when we want to use row count transformation then we have to create variables
+- use top right corner option ( Eraser symbol ) for creating variables. ( we can see all system variables from variable creation options )
+- after creating variable give that variable to row count & if we want show the msgbox of rows count then add script task & use that variable in that script ( also add that variable to readonly variable option )
+- message script code - MessageBox.Show("There are " +  Dts.Variables["RowsCount"].Value + " rows"); [for C# ]
+			-  MessageBox.Show("There are " & Convert.ToString(Dts.Variables("RowsCount").Value) & " rows") [for VBA ]
+
+-  After completing one control flow it will be run 2nd control flow ie script task & show msg
+__________________________________________________________________________________________________________________________________________________________________________________________
+Data type & data conversion Transformations
+
+- when we want to imort data from excel to any destination we should close source excel otherwise it will fail package.
+- while importing data from excel to any destination data type are important because excel store value in unicode string data type ( right click on excel source - advance editor-iput & output )
+- if data type not match then add data conversion task between source & destination
+
+conversion data types
+string data types
+	SQL			SSIS
+	char,varchar		DT_str
+	nchar,nvarchar		DT_wstr
+	ntext			DT_Ntext
+	text			DT_text
+
+Integer & Boolean
+	SQL			SSIS	
+	bit			DT_bool
+	tinyint			DT_UI1
+	smallint		DT_I2
+	int			DT_I4
+	bigint			DT_I8
+
+Floating Point data types
+	SQL			SSIS
+	real			DT_R4
+	float			DT_R8
+	decimal,numeric		DT_numeric
+	money,smallmoney	DT_cy
+
+Date & time Data types
+	SQL			SSIS
+	datetime,smalldatetime	DT_dbtimestamp
+	date			DT_dbtime
+	time			DT_dbtime2
+	datetime2		DT_dbtimestamp2
+	datetimeoffset		DT_dbtimestampoffset
+
+other data types
+	SQL			SSIS
+	uniqueidentifier	DT_guid
+	varbinary,timestamp	DT_bytes
+	xml,sql_variant		DT_wstr
+	image			DT_image
+__________________________________________________________________________________________________________________________________________________________________________________________
+Using expression in SSIS
+
+- while creating variable we can also give expression using funtion available in SSIS
+- if want to convert data type then use function from type cast
+- in ssis there is no if---else function so we have to use  TERNARY ( ? ) operator
+
+If........else
+DATEPART( "dw", @[User::CurrentDate]  ) ==6  || DATEPART( "dw", @[User::CurrentDate]  ) ==7
+?
+"Its Weekend !!" : "Its Weekday !!"
+__________________________________________________________________________________________________________________________________________________________________________________________
+Conditional split & derived column transformation
+
+- conditional split use for split data base on condition
+- for this we have add condional split task between source & destination
+- after spliting data for transformation on split data use derived column & replace value from that data , when we give condition in this case system auto take 570 character as text length so use DT_WSTR and truncate to 255.
+
+Debugging In SSIS
+
+- use output window when we want track error
+- if error getting about Bit version then change 64bit option as false from project properties-package
+- use data viewer for display result to check & we can also copy metadata,only particular columns show from edit option on data viewer Point.(shows pipeline data )
+- we can also add breakpoint on control flow to break excution of package
+- use watch & local window for variable value changes ( watch window recommended )
+__________________________________________________________________________________________________________________________________________________________________________________________
+Lookup Transformation in SSIS
+
+- Lookup transformation task use for split data match on basis of another table
+- for this we have to add lookup task betwen source & destination , it will give you two data i e match & unmatch
+
+For faster performance of lookup task use Caching Data - full/ partial caching
+Full cache- 	lookup table full loaded in memory
+partial cache - value look in lookup table & set aside in cache so after same value look in lookuptable it will process faster ( its best when we have large amount of data)
+
+there is one option which work faster than partial cache
+- create special cache from source lookup table ( sql ) with extension .CAW & use cache transformation task in SSIS
+- create one seprate data flow task for creating cache file then source task ----- cache tranform ( lookup column indexing is most imp )
+- change looktable conection to cache connection & map columns
+- we can create more that data flow at same time.
+__________________________________________________________________________________________________________________________________________________________________________________________
+Sequence Containers and FOR Loops In SSIS
+
+Task Host containers
+its default containers , in this we can't create two task or variable with same name it will give error.
+
+Sequence Containers 
+- with help of this we can create two or more containers & add task into this , we will give same name to task & variable in this but not in same container,we have create two different containers.
+- when we create variable by default it applied for whole package so we move variable to specific containers using move vaiable option
+- with help of this we can also perform  bunch of task , for this we have to move task to container & link with other task ( within container we don't have to connect task with each other )
+
+For Loops & Foreach loop
+- most useful is Foreach loop for checking files from any folder
+- using for loop we have to create one variable & configure loop by giving variable's initial value , assign expression( increament )	 , Evaluate expression ( for break the loop )
+__________________________________________________________________________________________________________________________________________________________________________________________
+Looping Over Files In SSIS
+
+- if we want to delete old file from any folder then use file system task & configure, there are standard operation available in this task ie move, copy , delete
+- for looping add foreach loop container & give folderpath & set which type of file to copy ( *.* means all files, *.txt* menas only text files )
+- TRAVERSE SUBFOLDERS option for looping within subfolders
+- for inserting variable value to sql table create parameter & use (Insert Into File_names values (?)) in execute sql task
+- when we create connection this was only available for that particular package
+- if we want to put if condition between two task then right click on link line-- edit---expression & create expression [ UPPER( RIGHT( @[User::FileName] , 4)  )== ".TXT" ]
+- for incrementing variable value use expression task in containers
+__________________________________________________________________________________________________________________________________________________________________________________________
+Foreach loop For other than Files
+
+- Ado.net is fancy word for looping over rows within schema & sql
+- for storing whole row data in variable use variable type as object
+- after that add excute sql task & configure and select option resultset as full result set
+- after that set result set tab add result as 0
+
+[ SQL command for show all table name from database -- select * from INFORMATION_SCHEMA.TABLES ]
+__________________________________________________________________________________________________________________________________________________________________________________________
+Script Tasks using C# In SSIS
+
+- using script task we can show message box for input from user to which data to be perform
+- after choose option one link set to failure
+- for both line to activate choose right click on link line & edit select or option ( dot line show for OR )
+
+Script Tasks using Visual Basic
+
+- while edit script if we dont want to mention variable in redonly & redright then use variable dispencer
+__________________________________________________________________________________________________________________________________________________________________________________________
+Script Components In SSIS
+
+- we have to add script component task between source & destination ( for source,destination, transformation )
+- after that we have configure input & output columns
+- script task automatically creates pre-excute , Post-excute precedure in script
+__________________________________________________________________________________________________________________________________________________________________________________________
+Expression and Other Constraints in SSIS
+
+- there two constaints precedence & Expression constraints
+- precedence constraints means if previous task failed, complete, success then it will go to next task as per failure , success & completion ( just right click on Task link line )
+
+- expression constraints means if we want to do specific task base on condition or expression then use this constaints
+- it also has AND & OR so if we have multiple constainsts then use so it will show dot link lines.
+__________________________________________________________________________________________________________________________________________________________________________________________
+Event-handling and logging In SSIS
+
+- Event hadling its like task which are perform when specific event has been trigger
+- goto event handler - select task & select events like post-excute, pre-excute, on-error
+- we can also track event hander on package exprolrer & on particular package folder
+
+To Logining in ssis
+- Goto Extension-- SSIS-- logging - add file
+- we can log all package data or any indiviual task , there is tick option available
+- if we wan to audit data side by side then use audit task add columns
+
+Error Handling In SSIS
+
+- if we want to split data bas on number of characters in columns then use data conversion task -- add revised column - redirect row
+__________________________________________________________________________________________________________________________________________________________________________________________
+Parameters and deployment in SSIS
+
+For crating catlog in SQL server goto database -- management -- integration services catlog
+for deploy project to sql server right click on projects -- deploy -- select instance name
+- its useful if we want to run package from sql server
+
+- excute package from sql server requires parameter if we want to run package then click ok so it will be run without parameter & if we requires sql statement then goto script and edit
+-  for create parameter goto projects-- parameter & we can use this parameter on sql task same as variables ( $ sign shown before parameter name )
+
+creating environment in SQL server
+- its very same senario if we are using same senarios again again
+- if we dont want give parameter again again then create senarios( environments)
+- for create goto catlog-- projects -- environment after create go to particular package & reference this environment
+__________________________________________________________________________________________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________________________________________________________________________________
+SSAS
+
+- SSAS is same as RDBMS database but its store data in commpressed manner, its contains cubes which stores data
+- with help of commpress query are process much faster.
+- we can use mdx & dax query for calculations
+- we can connect to any reporting tool using ssas , also we can pivot data if we have excel connection.
+
+SSAS Architecture
+
+RDBMS - SSAS ( Cubes ) - end user
+
+roles of ssas developer
+cube design , scripting ( some time ) , mdx , processing configuring  backup & restore cubes , apply security in ssis
+
+Imp Terms
+Data Source:
+Data Source is a kind of connection string. It establishes a connection between the analysis database and RDBMS.
+
+Data Source View:
+Data source view is a logical model of Database
+
+Cube:
+A cube is a basic unit of storage. It is a collection of data which has been aggregated to allow queries to return data quickly.
+
+MOLAP:
+The MOLAP is made of data cube which contains of measures and dimensions. It includes all the members who may be in a hierarchical relationship.
+
+It is specific set of rule which helps you to determine how certain cells are computed in a sparse cube and measures values rolled up inside that hierarchies.
+
+Dimension Table
+A dimension table contains dimensions of a fact.
+They are joined to fact table using a foreign key.
+Dimension tables are de-normalized tables.
+Dimensions offer characteristics of the facts with the help of their attributes.
+Not offers limit set for a given number of dimensions
+The dimension contains one or more hierarchical relationships.
+Dimension:
+Dimension offers the context surrounding a business process event. In simple terms, they give who, what, where of a fact. In the Sales business process, for the fact sales number, dimensions would be who customer Names.
+
+Where – Location
+What – Product Name
+In other words, you can say that a dimension is a window to view the information in the facts.
+Level:
+Each type of summary which can be retrieved from the single dimension is called label.
+
+Fact Table:
+A fact table is the most important table in a dimensional model. A Fact Table contains Measurements/fact and Foreign key to the dimension table. For example, payroll operations.
+
+Measure:
+Each fact table contains one or more table which should be analyzed. For example, a book sells information table. It can be a profit or loss for the number of book's sold.
+
+Schema:
+The database schema of a database system and its structure described in a formal language. It supports the database management system. The term "schema" means to the organization of data as a blueprint of a manner of which database is constructed.
+_________________________________________________________________________________________________________________________________________________________________________________________
+SSAS Cube Design | Cube Development in SSAS
+
+There are two types of SSAS 1 - multidimensional 2 - tabular
+- cubes are part of multidimentional model
+- measure & dimensions both are requires for creating cubes.
+- if we are not aware of fact & dimentsion table then there is suggest option it will auto select fact table.( not recommended not give correct )
+
+Solution explorer contains (one solution contains multiple projects.)
+
+data sources		- for creation of connection string
+data source view	- for selecting which tables requires 
+cubes 			- its contains Tabs - cube structures , dimension usage,calculation,kpi,actions,partitions,aggregations,perspectives,translations,browser
+dimensions 
+mining structures 
+roles 
+assemblies 
+miscllaneous
+_________________________________________________________________________________________________________________________________________________________________________________________
+SSAS Named Queries | SSAS Named Calculations
+
+- name queries use when we requires only certain columns from tables in data source view design.
+- for replce existing query with name query ( with certain column Table ) Right click on that query- replace - with name Query
+- for adding any calculate column in query then use Right click on that query- new named calculation-give column name & sql statement
+
+	select  FirstName,gender,'Gen' = case when Gender = 'M' then 'Male' else 'Female' end 
+		from DimCustomer
+_________________________________________________________________________________________________________________________________________________________________________________________
+SSAS Cube Deployment
+
+
+Deployment Process
+- if we want to check any errors in project then Right click on project - Build 
+- after checking error Right Click on project - properties - & give server name , database name
+- check impersonation information before deploy if there option selected ( use credentials of currect user ) then we will get error (You cannot deploy the model because the localhost\prashsql deployment server is not running in multidimensional mode.)
+- use option ( use service account ) in impersonation to correctly deploy project.
+
+impersonation has four option 
+1- User specific widows user name & password
+2- Use the service account
+3- User credential of current user ( it will not work when cube deployment )
+4- Inherit ( it wil set default option set at database level in Sql ssas server )
+
+Cube Deployment to Production or Testing environment
+
+option 1
+- for this we have to create XML file & send it to particular team
+- for XML creation Goto local ssas server right click on database-particular project - Script Database as 
+
+option 2
+open deployment wizard & and give bin folder access
+_________________________________________________________________________________________________________________________________________________________________________________________
+Tabular Model in SSAS | Introduction to Tabular Model in SSAS
+
+- it is in-memory database. its suitable for power bi data sources
+- if we want work on both multi-dimensional & tabular model on same machine then we have to installed Analysis services two time i e for each.
+- create ssas tabular model & give server name ( localhost\prashsql)
+- import data from sql server goto extension-model-import from data source, give server name and select table.(select related table option help to identify specfic table related to others. )
+- after importing data if we deploy project then it save to ssas databse.if we dont deploy then databse automatically remove from databases.
+- after deploy we can use that databse for power bi data source.
+_________________________________________________________________________________________________________________________________________________________________________________________
+Perspectives in SSAS | ssas cube perspectives
+
+- perspective as same as view in RDBMS ( sql, azure ),perspective & sql view both has same behaviour.
+- Sql views generated from table,its subset of tables.perspective derived/generated from cubes.its subset of cubes.
+- it is useful when we want to see other user only certain data then it is best option.then gives the rights to specific user.
+- Goto Cube design - Perspective tab - create new - tick \ untick field.
+- For test Cube goto Browser tab & select Cube.(perspective is virtual cube )
+_________________________________________________________________________________________________________________________________________________________________________________________
+SSAS Cube Connectivity and Usage | access ssas cube data in excel
+
+check cube connectivity via
+- in SSDT 
+- in SSMs - analysis services 
+- through MS excel ( reporting very simple using this option )goto data - import data from analysis service & give server name.(in excel)
+_________________________________________________________________________________________________________________________________________________________________________________________
+MDX Introduction
+
+- after cube creation, design , delpoy we can start MDX calculation queries. MDX generated more permutation & combination.
+- SQL /orcale are 2 dimensional queries, its contain rows & columns only.
+- For creating mdx query we requires two component Member & Measure. Member comes from Dimensional attributes , Measure comes from Fact attributes.
+
+Basic Syntax - 
+SQL - Select id,name from emp (here we can select record from only one table)
+MDX - Select Member/Measure on row ( for alias directly replace with row )
+	Select Member/Measure on Column From Cube Name
+
+
+Tuples in MDX
+- tuples are help to identify data uniquely & in details.
+- tuples form with help of dimensional members.( group of dimentional member, its not use for fact measures.)
+- one member from one dimension & other member from other dimensions ( we can not take two member from same dimension in tuples)
+- tuples are mention between paranthaesis.
+
+Basic Syntax
+	Select Member/Measure on row ( for alias directly replace with row )
+	Select (member1,member2) on Column From Cube Name
+_________________________________________________________________________________________________________________________________________________________________________________________
+Create Hierarchies in SSAS
+
+- click on that dimension on which we have to create hierarchies.
+- after that if there is atrributes not added to list then drag from column to attributes & create hierachies by draging field one by one.
+- a system or organization that has many levels from the lowest to the highest
+_________________________________________________________________________________________________________________________________________________________________________________________
+Key Performance Indicators in SSAS
+
+- it is helps to identify business statergy like business is going good or bad.its combination of calculations.
+- goto KPI - create new KPI & give name ,select fact table, value expression , goal expression,status expression(sql case statements) ,select status indicator.
+_________________________________________________________________________________________________________________________________________________________________________________________
+Difference between tuples and sets in mdx
+
+- Tuples are mention between paranthesis 	sets are mention between curly braces.
+- both are use for uniquely identify data. 
+- set are useful when we requires member from same dimension. ( e.g. sales from year 2014 & 2015 )
+
+Tuples Basic syntax
+
+	SELECT [Measure].[sales amount] on columns
+	([Dim date].[calender year].&[2014],[Dim sales territory].[sales territory region].&[India] on rows
+	From [adventures Works dw2016]
+
+Sets Syntax
+
+	SELECT [Measure].[sales amount] on columns
+	{[Dim date].[calender year].&[2014],[Dim date].[calender year].&[2015] } on rows
+	From [adventures Works dw2016]
+_________________________________________________________________________________________________________________________________________________________________________________________
+Cube Partitions in SSAS
+
+- if we have big data in cube so use partition , it will run in background end user will not see that partition.
+- it is best option to enhance cube performance.
+- partition is split the fact\measure group into smaller group base on specific columns.
+- by default every cube has one partition per meausre group.we have to change that to multiple partition.
+- Goto Partition-- New partition- select Query binding\table binding--- on query binding mention SQL query to partition data.
+_________________________________________________________________________________________________________________________________________________________________________________________
+Cube Processing in SSAS
+
+- there are two option for cube processing 1- mannually 2- automate ( using ssis package.)
+- if we want to deploy on structure then Goto project properties--deployment-precessing-dont process.( it will not deploy data.)
+- there five option for precess cube-
+1 - process full - 	it will precess data + structure.
+2 - process default - 	if you are precessing cube first time then it will precess data + structure.
+3 - process data -	it will precess data ( if we change any schema change then it will not work)
+4 - process structure -	it only precess structure.
+5 - process clear - 	it will drop data from cube.After the data is dropped, it is not reloaded.
+
+Cube Process through SSIS Package (Automatic)
+
+- if we already deploy cube then we have refresh that on interval basis because data coming day by day.for upto date we have use process options.
+- Analysis processing task which are help us to process cube & dimension in SSAS.
+- configure task -- give server name & add what object(filed) we need to be refresh.
+
+Automate SSAS Cube Process using SSIS 
+
+- if we want refresh cube on monthly,weekly,daily then we have to first link cube to SSIS package.
+- for automation we have to link SQL server Agent to SSIS
+- after that create job-- give ssis package for precessing & schedule it.
+_________________________________________________________________________________________________________________________________________________________________________________________
+Case & Conditional Statement in MDX
+
+- if we have to test multiple condition in mdx then best practice is to use case statetment.( we can also use If....else)
+- we can also create common table expression & use it in mdx query.
+
+syntax
+	** Creating CTE
+	WITH Member [Meaures].[Salescondition] AS	
+	CASE
+	WHEN [Meaures].[Sales Amount]> 4000 THEN 'Good'
+	WHEN [Meaures].[Sales Amount]< 4000 AND [Meaures].[Sales Amount]> 0 THEN 'Okay'
+	WHEN [Meaures].[Sales Amount]= 0 THEN 'No Proft No Loss'
+	WHEN [Meaures].[Sales Amount]< 0 THEN 'Loss'
+	END
+
+	** Creating MDX
+	SELECT { [Meaures].[Salescondition],[Meaures].[Sales Amount] } ON Columns,
+	[Due Date].[Calendar Year] ON Rows
+	FROM [Adventures Works DW2016]
+_________________________________________________________________________________________________________________________________________________________________________________________
+Rank Function in MDX
+
+SQL syntax
+
+	SELECT * , Rank() OVER(order by SALARY DESC)
+	FROM [Sample].[dbo].[Employee]
+
+- for using rank function in MDX we have to first create order set.
+
+MDX Syntax
+
+	WITH SET Region AS	** created order set
+	ORDER (
+	[Dim Sales Territory].[Sales Territory Region].[Sales Territory Region],
+	[Measures].[Sales Amount] )
+	
+	Member [Measure].[SalesRank] AS		** Created Calculate measure
+	Rank ( [Dim Sales Territory].[Sales Territory Region].Currentmember,Region)
+
+	Select { [Measure].[Sales Amount] ,[Measure].[SalesRank] } ON COLUMNS	
+	Regions ON ROWS
+	FROM [Adventures Works DW2016]
+_________________________________________________________________________________________________________________________________________________________________________________________
+_________________________________________________________________________________________________________________________________________________________________________________________
+SSRS
+
+- with help of this we can visualised data in proper manner.
+- we can create report using report builder & report designer
+- its is XML base file & its extenion is .rdl
+
+type of report
+enterprise report - its is use for following business standard (for business)
+add hoc - no business
+embedded report - its embedded in thrid party application like .net , java 
+
+
+SSRS architecture
+
+Data source -- report server -- report builder
+report server database -- report manager -- report builder ( report manger is end user & it is web application)
+_________________________________________________________________________________________________________________________________________________________________________________________
+Creating SSRS report
+
+- after creating new report in ssrs , solution explorer contains shared data sources,shared database,reports.
+- add new report to report folder right click folder
+
+Data source & Shared data sources
+- with help of data source we can create connection string between ssrs & dat sources, its is private connectin
+- shared data sources is public coneection, we can use this for multiple report.
+
+Shared Data set & Embedded Data sets
+- Embedded data set create at particular report level, shared data set we can use within entire project.
+
+Data Region
+- when we will create report in ssrs it will comes under data region,there 5 data regions.(table,matrix,chart,list,Guage)
+_________________________________________________________________________________________________________________________________________________________________________________________
+LIST REPORT IN SSRS | LIST IN SSRS
+
+- goto report -- create new report
+- in toolbox there various types of repot available.
+- list report does not have any specific layout
+- if we create new list report in sssrs & add textbox and table then we have to group that both.
+
+CHART REPORT IN SSRS
+
+- its help to show data in graphical manner.(line ,bar etc.)
+
+LIMITATIONS OF REPORT WIZARD IN SSRS 
+- with help of report wizard we cant create report with multiple data set.
+- it is does not allowes paramaterized report.
+- wizard support only table & matrix report.
+
+
+Expressions IN SSRS 
+
+- if we want show customized value apart from database value then use expressions.
+- it is use for to perform complex calculations,for dynamic bahviour of report,to pass paramerter,to show detail or aggreegate data in report.
+
+TYPES OF REPORTS IN SSRS
+- parmaterized report
+- linked report
+- snapshot report
+- cascaded report
+- ad hoc report
+- drill down report
+- drill through report
+- sub report
+_________________________________________________________________________________________________________________________________________________________________________________________
+PARAMETERIZED REPORT IN SSRS
+
+- its take user input and generate report
+- there two type of report single value & multiple value
+- for multiple value parameter we have create seprate dataset & select that data set in report
+
+steps
+- create new report
+- create data source
+- create parameter
+- create dataset
+- link parameter & dataset
+- design the report
+- observe output
+
+CASCADED PARAMETERS IN SSRS
+
+- it is nothing but one parameter depends on another parameter,order of parameter is very important.
+_________________________________________________________________________________________________________________________________________________________________________________________
+ACTIONS IN SSRS
+
+there are three action in SSRS when we click on Particular field value (shows hand symbol when we hover on field )
+
+- Goto Bookmarks
+- Goto Reports
+- Goto URL
+
+Go to URL IN SSRS
+- Goto design report-Right click on fild text box--text box properties--action
+
+
+LOOKUP IN SSRS
+
+- it is same as we use join data in sql server
+- it is very usefull when we have to join data data from different source like one from sql server & another from flat file
+
+
+Conditional Formatting in SSRS 
+
+- Goto design report-Right click on fild text box--text box properties--Font
+	=iif(Fields!BoxOfficeDollars.Value>555000000,"LimeGreen","Red")
+
+
+CALCULATED FIELDS IN SSRS
+
+- it is calculated field base on user input like if user want tax,bonus etc.
+- right click on dataset-add calculated field- give expression- select same filed in report
+
+CUSTOM .NET CODE IN SSRS
+
+- with help of code we can calculate column in report
+- Right Click on report-- report properties--Code
+- after that right click on column--expression -- use (=Code.status(Fields!Salary.Value))
+_________________________________________________________________________________________________________________________________________________________________________________________
+Sub Reports in SSRS
+
+- it is occupy space in main report
+- if we want insert subreport in main report then both should be on same project.
+- create main report n then on column insert sub report & set properties.
+
+SSRS LINKED REPORTS
+
+- it is use when we deploy report to report manager & we want show only specific data.
+- it is derived report from exisiting report.
+- Goto report server url & From original report create linked report & set parameter
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

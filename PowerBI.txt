@@ -1,0 +1,1781 @@
+https://drive.google.com/drive/folders/0ByQlW_DfZdxHM3J2UXdPcWd3Wnc
+
+prashant@prkassociates05.onmicrosoft.com
+
+MS Power BI Architecture
+1. Data Sources (Excel,Databases)
+
+2. Power BI desktop
+client installed on machine where we create, transform, model data for creating interactive reports
+
+3. Power BI Service - web based service for collbration, sharing, creation of dashboards 
+QnA feature one can ask question to dataset
+publish created report on cloud based service.
+power bi free - used corporate emaid id to sign in
+power bi pro
+power bi premium
+
+4. Power BI Mobile (delivery)- native applications for ios,android and windows for viewing reports and dashbaords from anywhere
+
+5. Power BI Report Server
+alternative to Power BI service for deploying reports within an on-premises data center as opposed to cloud-based power bi service.
+power bi server requires a power bi premium license.
+limited functionality than power bi service but not having QnA
+
+6.Power BI Embedded - APIs for embedding visuals into custom application.
+_________________________________________________________________________________________________________________________________________________________________________________
+Power Query Editor
+
+Join the tables (Merge Queries)
+
+- to join two tables
+click on Transform data from ribbon. new window open
+make sure at least parent table is selected.
+then click on merge queries ribbon under Home-Combine
+- select other table which needs to be join. select join field from both table.
+select flavour of join below and apply.
+click on apply and close ribbon
+
+- expand parent table but still other table shown in dashboard pane data panel so we need to right click on the table and select hide from view.
+_________________________________________________________________________________________________________________________________________________________________________________
+Append Queries (Union)
+
+-  go to transform
+- add new source
+- make sure main table is selected. click on append queries find Home-combine
+- select two table or three or more tables
+- select table name and ok
+note : always check data, no of columns, name of columns and type of columns before appnding queries.
+_________________________________________________________________________________________________________________________________________________________________________________
+Merge Column
+
+- select columns which are want to merge
+- go to 'add column' task bar - merge column
+- select seperator and enter new column name
+- you can delete previous columns
+_________________________________________________________________________________________________________________________________________________________________________________
+Add conditional column
+
+- select table where you want to add column
+- go to add column - conditional column
+- name of column
+- create condition into it and ok
+_________________________________________________________________________________________________________________________________________________________________________________
+Magic of Power BI
+if you realized that you would have do append before merge then just drag append step above the merge step in applied steps
+_________________________________________________________________________________________________________________________________________________________________________________
+alternative method Calendar Table Creation in Editor
+
+or we can create master calendar by using blank query mode
+get data - blank query
+query transform - advanced editor - write script
+create two startyear and endyear parameter and used it in m-script
+let
+    StartDate = #date(StartYear,1,1),
+    EndDate = #date(EndYear,12,31),
+    NumberOfDays = Duration.Days( EndDate - StartDate ),
+    Dates = List.Dates(StartDate, NumberOfDays+1, #duration(1,0,0,0))
+in
+    Dates
+
+Because the result is in a list format, and List in Power Query only can have one column, we need to convert it to table to be able to add extra columns to it. Converting to table is an easy transformation in List Tools -> Transform tab -> To Table. When converting to a table, you can choose delimiter and some configuration. leave these configurations as default and click on OK.
+
+adding new colmunns such as year, month, week, time etc
+Click on created date column and then from Add Columns Menu, under Date and Time Transformation, from Date section select Year
+_________________________________________________________________________________________________________________________________________________________________________________
+How to chnage data source connection.
+
+- Transform data - data source connection setting and change path and source type (excel, oracle,sql)
+- another advanced method
+go to advanced editor in transform data
+search for present source string and replaced it witn new source string
+_________________________________________________________________________________________________________________________________________________________________________________
+Advanced Mathematical Formulas using the M Language
+
+The most basic M language statement starts with the let reserved word. Each mathematical calculation builds upon the results of a previous one. Last but not least, the in reserved word tells the M language processor that we want to evaluate the expression.
+
+let
+    source = " "
+in
+    source
+
+The Table.FromRecords function is allows the developer to insert static data as sets of lists.
+= Table.FromRecords({
+    [id=1, fname="shrikant", lname="khabale", startdate="27/01/2020", enddate="1/7/2020"],
+    [id=1, fname="prashant", lname="khabale", startdate="7/01/2020", enddate="15/7/2020"],
+    [id=1, fname="ramesh", lname="khabale", startdate="20/01/2020", enddate="13/7/2020"],
+    [id=1, fname="kiran", lname="khabale", startdate="13/01/2020", enddate="19/7/2020"]          
+    } )
+
+Data type conversions
+
+Number.From - convert text to number
+if value contents alphanumeric then write error at those values but we can not use such field for aggergation so M language has error handling
+try otherwise
+ex try Number.From ([IsNumber]) otherwise 0
+
+Number.IsOdd([field])
+Number.IsEven([field])
+Number.abs([field])
+Number.sign([field]) -  It returns a value of -1 for negative numbers and 1 for positive numbers.
+
+Numerical Operations in the M Language
+
+Number.InterDivide - How many times the [Divisor] divides into [Dividend] evenly? 
+ex. Number.IntegerDivide([Dividend], [Divisor])
+
+Number.Mod([Dividend], [Divisor])
+Number.Power([Power],2)
+Number.Sqrt([Root])
+Number.Factorial([Field])
+Number.Exp([Field])
+Number.Ln([Field])
+Number.Log([Field],2)
+Number.Log10([Field])
+Number.combinations([Field],2)		-column as the set size and 2 as the selection size.
+Number.Permutations([Field],2)	
+
+Numerical Constants in the M Language
+Number.Epsilon	- returns the smallest value
+Number.E		- returns Euler's number
+Number.PI
+Number.PositiveInfinity
+Number.NegativeInfinity
+Number.Nan	- which represents 0/0.true if the column contains this value
+
+one real use of the log10 function called the Logarithmic scale. This technique is used to graph the magnitude of some variable that has a large range of values.
+The graph would be cleaner to show the spikes during special times or large values of the year.
+_________________________________________________________________________________________________________________________________________________________________________________
+Rounding Functions
+
+Number.Random()
+Number.Round()
+if (Number.RandomBetween(0,[Divisor]) < 
+[Divisor]/4) then -[Divisor] else [Divisor]
+
+Number.RoundDown([Field]) - define a column with input field rounded down to the next lowest integer.
+Number.RoundUp([Field]) - define a column with input field rounded up to the next highest integer.
+Number.RoundTowardZero([Field]) -  if input is negative, round the number up and if input is positive, round the number down
+Number.RoundAwayFromZero() - if input is negative, round the number down and if input is positive, round the number up
+Number.Round([Field],2) - rounding to two decimal places
+_________________________________________________________________________________________________________________________________________________________________________________
+Text extraction
+
+Text.Length([field]) 			Returns the length of a given string.
+Text.At([field],2) 			Returns a character starting at a zero-based offset.
+Text.Middle			Returns the substring up to a specific length.
+Text.Range			Returns a number of characters from a text value starting at a zero-based offset and for count number of characters.
+Text.Start([Field],3)			Returns the count of characters from the start of a text value.
+Text.End([Field],3)			Returns the number of characters from the end of a text value.
+
+There are three functions that deal with delimiters.
+Text.AfterDelimiter			Returns the portion of text after the specified delimiter.
+Text.BeforeDelimiter			Returns the portion of text before the specified delimiter.
+Text.BetweenDelimiters		Returns the portion of text between the specified start and end delimiter.
+_________________________________________________________________________________________________________________________________________________________________________________
+Power BI Native Query and Query Folding
+
+It provides us with a glimpse of what is going on "behind the scenes" when we create and transform certain datasets in Power BI Desktop.
+Query folding provides a way for a dataset to be filtered before the data arrives back at the Power BI Desktop client.When you define transformations on the data, it is possible that those transformations are sent back to the source to improve performance.
+
+Depending on the source, Power Query can send some of the transformations to the source. This means that those transformations take place at the source, before any data is sent to Power Query. This is a big performance improvement, since Power Query has to import less data. This process is called query folding.
+
+whatever transformation we performed it would refelect in native query of query setting
+split Column Applied Step, the Native Query option is grayed out. That means that the Query Fold and Native Query functionality stopped at the prior step.
+Once these functions are disabled, no further "down the list" transformations will allow you to view the Native Query function nor will Query Folding be applied. However, and this point is important, if you go to the PRIOR step, the Native Query options is still enabled.
+
+On a positive point, the Native Query functionality is not just available for SQL Server, but it is also available for other data sources that allow custom SQL.
+However, the same Native Query functionality is not available against an Excel data source.
+
+list of sources that support query folding
+
+Relational sources (SQL Server, Oracle, …). They support most Power Query functionality.
+OData sources (such as a SharePoint list for example and the Azure Marketplace)
+Active Directory
+Exchange
+HDFS, Folder.Files and Folder.Contents (for basic operations on paths)
+
+Transformation support
+Filtering (on rows or columns)
+Joins
+Aggregates and GROUP BY
+Pivot and unpivot
+Numeric calculations
+Simple transformations, such as UPPER
+
+Preventing Query Folding
+
+These are the most common reasons why query folding isn’t taking place:
+Using a source that doesn’t support query folding.
+Using the .Buffer() M function, either on a list or on a table. This function reads all data into Power Query.
+Using a custom SQL statement. If you write your own SQL statement to fetch the data, any subsequent transformation on that data will not use query folding.
+Some transformations. For example, filtering with the date filter “This Month” prevents query folding as in the current release there is no SQL equivalent filter implemented yet. This might change though in future releases.
+Some privacy level settings can prevent query folding.
+Using “Removing rows with errors” prevents query folding.
+Defining and using your own functions in Power Query can also prevent query folding.
+_________________________________________________________________________________________________________________________________________________________________________________
+Using Parameters in Power BI
+
+Parameters are more pronounced than the "on the fly" filter capacity that is embedded currently in Power BI.
+
+Two items to be aware of with parameters are:
+1. The method of implementing "criteria" in Power BI is different than in SSRS for instance. Power BI uses contextual filtering where as SSRS uses full-fledged selection parameters. Thus parameters are not prominently displayed for selection on the report preview screen.
+2. When deploying a report with parameters to Power BI online, the current selected value for the parameters are used and cannot be changed online.
+
+Finally, Parameters can be used and GUI screens are provided in the following 4 areas of Power BI Desktop:
+1. Data Sources
+2. Replace Value
+3. Remove Rows
+4. Filter Rows
+
+Transform data - Home - Manage parameter
+Once the parameters are created, they then can be used to filter a dataset, remove values, or to define datasets
+
+Three options exist for this property.  The Any value option allows for free form entry of values. The List of values, the second option allows you to enter a predefined list of available values, similar to a list box. The final available, option is to populate the parameter list based on a query. The query can be populated from an existing field in a table in the data model.
+
+Once parameter is create with default value ex paramyear current value = 2012. The final step in our parameter setup is to apply it to FactInternetSales table. We must first open FactInternetSales dataset and then click on the down arrow next to order year. Next, you will click on Number Filter and then Equals.
+select the parameter option from the potentials value sources.  Of course you could also use other comparison operations such as is greater than, does not equal, etc.
+
+Similarly, we could apply a parameter to the Replace Values methods or to the Data Source settings.
+Closing the Edit Query window and heading back to the Report Dashboard, you will notice that my visualization of Internet Sales By Year only shows 2012.
+_________________________________________________________________________________________________________________________________________________________________________________
+xVelocity engine in Power BI (Power pivot)
+
+During processing, the engine reads the content of your data source and transforms it in the internal VertiPaq data structure.
+The steps that happen during processing are as follows:
+
+Reading of the source dataset, transformation into a columnar data structure of VertiPaq, encoding and compressing each column.
+Creation of dictionaries and indexes for each column.
+Creation of the data structures for relationships.
+Computation and compression of all the calculated columns.
+
+VertiPaq compression algorithms aim to reduce the memory footprint of your data model.
+1. Value encoding
+It can discover mathematical relationships between the values of a column and, when it finds them, it can use them to modify the storage, reducing its memory footprint. Obviously, when using the column, it has to re-apply the transformation in the opposite direction to again obtain the original value (depending on the transformation, this can happen before or after aggregating the values). Again, this will increase the CPU usage and reduce the amount of reads, which, as we already discussed, is a very good option.
+
+Value encoding happens only for integer columns because, obviously, it cannot be applied on strings or floating-point values. Please consider that VertiPaq stores the currency data type of DAX in an integer value
+
+2. Dictionary encoding
+Dictionary encoding is another technique used by VertiPaq to reduce the number of bits required to store a column. Dictionary encoding builds a dictionary of the distinct values of a column and then it replaces the column values with indexes to the dictionary. ex creating integer id for color i.e id 0 for red and so on
+
+When VertiPaq encodes a column with dictionary encoding, it
+
+Builds a dictionary, containing the distinct values of the column.
+Replaces the column values with integer numbers, where each number is the dictionary index of the original value.
+
+3. Run Length Encoding (RLE)
+This technique aims to reduce the size of a dataset by avoiding repeated values. 
+_________________________________________________________________________________________________________________________________________________________________________________
+_________________________________________________________________________________________________________________________________________________________________________________
+_________________________________________________________________________________________________________________________________________________________________________________
+
+
+Power Bi Desktop
+
+Using Power BI Aggregations
+
+- we use aggregatoions for large data,speed up refresh,reduce model size,future proof
+- use group by option in power query to group data
+- for all table are in directquery mode we have to use manage aggregation option and change table storage mode.( when we has aggreagation table.)
+- for mapping aggreation table to details we have to check column has same data type.
+_________________________________________________________________________________________________________________________________________________________________________________
+Calculation Groups in Power BI Desktop
+
+-  with help external tool tabular editor we can create calculation group.
+- Calculation groups can apply specific calculations on top of existing DAX measures. also enable the selection of a measure in an existing report through a slicer.
+- You have to enable the preview feature “Store datasets using enhanced metadata format” in the Power BI options in order to create calculation groups.
+- we can also format calculation items in tabular editor.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Use composite models in Power BI Desktop
+
+A model that combines data from more than one DirectQuery source or that combines DirectQuery with import data is called a composite model.
+
+- Combines data from one or more DirectQuery sources.
+- Combines data from DirectQuery sources and import data.
+_________________________________________________________________________________________________________________________________________________________________________________
+Create Calendar with DAX
+
+- we can create new table in data panel by using dax expression.
+- data panel - click 'new table' ribbon icon
+- type tablename = addcoulmns(column1 expression, column2 expr,...)
+
+D_Calendar = ADDCOLUMNS(
+CALENDAR(DATE(2000,1,1),DATE(2020,12,31)),
+"Date_Int", FORMAT ( [Date], "YYYYMMDD"),
+"Year", YEAR( [Date] ),
+"Month", MONTH( [Date] ),
+"Year_Month", FORMAT( [Date], "YYYY-MM"),
+"Year_Month_Name", FORMAT ( [Date], "YYYY-mmm"),
+"Month_Name", FORMAT( [Date], "mmm"),
+"Week", WEEKDAY([Date]),
+"Week_Day", FORMAT( [Date], "dddd" ),
+"Qtr","Q" & FORMAT( [Date], "Q"),
+"Year_Qtr", FORMAT( [Date], "YYYY") & "-Q" & FORMAT([Date],"Q")
+)
+
+- change data type of year to text in same data panel. click on year column and from upper ribbon change data type
+- Join this calendar table with fact table
+
+alternative method 
+or we can create master calendar by using blank query mode
+get data - blank query
+query transform - advanced editor - write script
+create two startyear and endyear parameter and used it in m-script
+let
+    StartDate = #date(StartYear,1,1),
+    EndDate = #date(EndYear,12,31),
+    NumberOfDays = Duration.Days( EndDate - StartDate ),
+    Dates = List.Dates(StartDate, NumberOfDays+1, #duration(1,0,0,0))
+in
+    Dates
+
+Because the result is in a list format, and List in Power Query only can have one column, we need to convert it to table to be able to add extra columns to it. Converting to table is an easy transformation in List Tools -> Transform tab -> To Table. When converting to a table, you can choose delimiter and some configuration. leave these configurations as default and click on OK.
+
+adding new colmunns such as year, month, week, time etc
+Click on created date column and then from Add Columns Menu, under Date and Time Transformation, from Date section select Year
+_________________________________________________________________________________________________________________________________________________________________________________
+Difference between M and DAX?
+
+M
+
+- M stands for many things, but one of the most common words of it is Mashup. Which means this language is capable of data mashup, and transformation. M is a functional language.
+- M is a step by step language structure. Usually (Not always), every line in M script is a data transformation step. and the step after that will use the result of previous step.
+- it is understandable with programming blocks of Let and In
+- The M language, in Power Query, is case-sensitive despite living in the same environment as DAX. 
+
+DAX
+
+- DAX is Data Analysis eXpression Language. This is the common language between SQL Server Analysis Services Tabular, Power BI, and Power Pivot in Excel.
+- DAX is an expression language, and unlike M, it is very similar to Excel functions. In fact, DAX has many common functions with Excel.
+- DAX doesn’t have programming blocks in it, and is combination of function uses, filters, and expressions.
+- is case-insensitive as a language, but string comparison is case-sensitive.
+_________________________________________________________________________________________________________________________________________________________________________________
+Introduction to DAX (Data analytics expression)
+
+There are two types of calculations in DAX:
+1. Calculated Columns - it is created during refresh of data
+2. Calculated Measures - it created on the fly. not part of data model but used in visualization
+
+Calculated Columns
+- go to data panel, select table where you want to create new column.
+- select new column from upper ribbon
+column = Tablename(field1)* tablename(field2)            #(expression)
+
+Note : adding sales to cost ratio doesn't look right because it sums up. for ratio, you would need to create a calculated measure
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________--
+Iterative Function in DAX
+
+SUMX,COUNTX - based on conditions or filter data aggrations will applied.
+find sum and count of quantity where cust type = gold only
+SumFilterGold = SUMX(FILTER(F_SALES,RELATED(CUST_TYP_CATGRY[CST_TYPE])="Gold"),F_SALES[QTY])
+AvgFilterGold = AVERAGEX(FILTER(F_SALES,RELATED(CUST_TYP_CATGRY[CST_TYPE])="Gold"),F_SALES[QTY])
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Variables and Rank Functions
+
+rank to all cust_id based on gross profit values
+Rank = RANKX(all(F_SALES[CUST_ID]),[Gross Profit_C],,0)
+
+Static method to get Top N
+- expand cust_id on 'filter on visuals'
+- change 'Type of filtering' to select 'Top N'. mention number N
+- drag gross_profit column to it
+
+Dynamic method to get Top N using variable
+- to create variable go to modelling bar
+- click on new parameter under what if
+- give variable name, its data type, min, max, increment, default value
+- check add to this page box
+- change slicer UI to single value
+now we need to set up connection of created slicer with charts
+create one measure in table
+TopNValues = IF([Rank]<='var_TopN'[var_TopN Value],[Gross Profit_C],BLANK())
+and add above measure to chart
+- to remove blank rank values. go to TopNValues field filter
+- select 'is not blank' from 'show items when the value'.
+- type value in slicer or drag slicer. you will get top N values.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Set functions in DAX: UNION, INTERSECT, and EXCEPT
+
+UNION - it is use for appending two tables it will not remove duplicate
+INTERSECT - it is use for featching matching records from two tables.if first table contains duplicate value then it will show duplicate value.
+EXCEPT - Except accepts two tables as arguments and it returns all the rows in Table1 that are not present in Table2.EXCEPT retains duplicates only if present in the first argument.
+
+Tables with different column names and data lineage
+- UNION loses the data lineage whereas INTERSECT and EXCEPT both maintain the lineage of their first argument.if its same column name then it will show correct otherwise give all sales amount, for this we have to use TREATAS function to restore data lineage.
+- None of the set functions accept arguments with a different number of columns.
+- if column having different data types UNION converts column types from numeric to string, whereas INTERSECT and EXCEPT do not apply any conversion and return an error instead
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+KPI Traffic Light Visualizations -  UNICHAR
+
+www.alt-code.net/circle symbols
+find out decimal code for required symbols.  eg black circle - 9679 , for bigger circle symbol - 11044
+- to create traffic light kpi
+- add measure calculation as :
+	KPI Traffic Light = UNICHAR(9679)
+- add this measure to table and change font by conditional formatting
+- expand KPI Traffic Light - conditional formatting - font - mention conditional field.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Measures VS Calculated Columns
+Syntax
+'TableName'[ColumnName] - quote can be ommited if tablename does not contain spaces. bracket for column name can not be ommited
+
+Use column when need to slice or filter on the value
+always computed for current row
+
+Use a Measure
+measure not work row by row
+Instead, use tables and aggregations. do not have current row concept
+Calculate percentage
+calculate ratios
+need complex aggregations
+
+Space and CPU usage
+columns consume memory
+measures consume CPU
+
+Iterators 
+SUMX
+AVERAGEX
+MINX
+
+Iterate over the table and evaluate the expression for each row
+Always receive two parameters
+SUMX(table, expression)
+DIVIDE(Sales[GrossMargin], Sales[SalesAmount],0) - use this function instead of if
+
+Using Variables in DAX expressions
+Very useful to avoid repeating subexpressions in your code
+
+Corrected Quantity :=
+VAR
+	TotalQuantity = SUM( Sales[Quantity] )
+RETURN
+	IF (
+	       TotalQuantity >1000,
+	       TotalQuantity * 0.95,
+	       TotalQuantity > 1.25,
+	)
+
+Table Relationship and DAX
+define expression with columns from different table
+RELATED - follow the relationships and returns the value of a column
+
+RELATEDTABLE - follow relationship and returns the rows in relationship with current one
+The RELATED function works on many-to-one relationships, while RELATEDTABLE is for one-to-many relationships.
+RELATED - if you want value from dimension to measure
+RELATEDTABLE - measure to dimension
+SalesofProduct = SUMX( RELATEDTABLE(Sales), Sales[Quantity] * Sales[Unit Price] ) 
+
+One significant difference between DAX and the Excel formula language is that DAX allows you to pass entire tables between expressions, rather than being constrained to a single value. One powerful effect is that DAX allows you to filter tables in its expressions, then work with the filtered set of values.
+
+DAX has a rich set of table functions, including the following:
+
+FILTER
+ALL
+VALUES
+DISTINCT
+RELATEDTABLE
+
+FILTER (ALL (Table), Condition)
+SUMX(FILTER(Orders, Orders[Price] > 1),Orders[Quantity] * Orders[Price] )
+Fliter add new condition. Restricts the number of rows of a table. returns a table. can be iterated by an X function
+Needs a table as input, the input can be another filter
+
+SUMX( ALL(Orders), Orders[Quantity] * Orders[Price] )
+returns all the rows of table (all distinct values)
+ignores the filter context
+returns a table
+this can be iterated by X functions
+Needs a table as input, can be used with single column ALL(Customers[CustomerName])
+Returns a table with all the values of all the columns passed as parameters
+COUNTROWS ( ALL (Orders[Channel], Orders[Color], Orders[Size] ) )
+ALLEXCEPT(Orders, Orders[City])
+
+DISTINCT
+COUNTROWS(DISTINCT, Orders[City])
+
+distinct does not take into account of blanks rows but values does
+
+VALUES - return the distinct values of a column, only the ones visible in the current context, with the additional no-match row
+COUNTROWS( VALUES (Product[Productcode] )
+
+ALLNOBLANKROW - all returns the blank row, if it is exists.ALLNOBLANKROW omits it
+
+CALCULATED TABLES`	
+create new table
+RedProducts = FILTER('Product', 'Product'[Color] = "Red" )
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+ISFILTERED() V/S ISCROSFFILTERED()
+
+- ISFILTERED() only look for specific column result not change when slice & dice data using filter pane
+- ISCROSFFILTERED() check for is it filter specific column , any column from same column table & also is it filer through another table column relationship 
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Distinguishing HASONEVALUE from ISINSCOPE
+
+- the both function work same when filed name not mention on visuals
+- HASONEVALUE checks that a column has exactly one value visible in the current filter context.
+- ISINSCOPE checks that a column is currently being filtered because it is part of a grouping performed by a summarizing function.
+
+Understanding Circular Dependencies in DAX
+
+- whenever we use calculate columns for relationship then most times we get circular dependencies error
+- use  ALLNOBLANKROW &  VALUES with DISTINCT for dax.
+
+RANKX on multiple columns with DAX and Power BI
+
+- where we wan rank base on two field then we have to use below approch
+- there static rank method where we have calculate max customer index & multiply that to our sales 
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Design Patterns for Calculated Tables in Power BI
+
+Calculated tables can be created by using the “New Table” feature in Power BI Desktop. Calculated tables store intermediate results for querying. Just like normal tables, relationships can be created with calculated tables. The columns in the calculated tables have a data type which can also be formatted. Calculated tables and their columns can be used in report visualization similar to normal tables. Calculated tables are re-calculated if the base table’s data gets updated or refreshed and they are in-memory tables.
+
+Design Pattern #1 Distinct values of field in new table
+- Modelling - New table
+- Manufacturer = DISTINCT('Product'[Manufacturer])
+
+Design Pattern #2 (Copying table)
+Let us assume that we want to copy the Sales table into the Sales_History table
+Sales_History = Sales
+
+Design Pattern #3 (Union)
+Now let us assume that we have two sales tables named “Sales_2016” and “Sales_2017” and we would like to combine the two tables for analysis.
+SalesOrderDetails = UNION(Sales_2016,Sales_2017)
+
+Design Pattern #4 (Summarize)
+I would like to calculate total sales for each product in the Sales table.
+In SQL, the Group By clause would help us to achieve this functionality. In Power BI this can be achieved by using the DAX expression “Summarize”.
+
+SUMMARIZE(<table>, <groupBy_columnName>,<Name>],<expression>])
+
+Parameters:
+table - The name of the table where we would like to apply the groupby functionality
+groupBy_columnName – The name of the column to be used for grouping
+name - The name of the output column enclosed in double quotes
+expression -The actual calculation/expression to be applied for each group
+
+Product Sales = SUMMARIZE(Sales,'Product'[ProductKey],"Total Sales",Sum('Product'[SalesAmount]))
+This DAX expression will return a table with two columns “ProductKey” and “Total Sales”.
+
+As the calculated tables are similar to normal tables, a relationship can be created as well. A relationship has been created between the ProductKey of the "Product" table and the ProductKey of the calculated table "Product Sales".
+Now a calculated column can be added to this table
+ProductName = RELATED('Product'[Product Name])
+
+Design Pattern #5 (Top n)
+Most likely, business users will be interested to understand top n performers. Now let us assume that we have a requirement to display Top 5 products based on the sales amount.
+
+TOPN(<n_value>, <table>, <orderBy_expression>,<Order>)
+n_value - Number of rows to return
+table - The name of the table where we would like to apply the Top n functionality
+orderBy_expression - Order by column
+Order - Order by expression ASC or DESC
+
+Top 5 Products = TOPN(5,'Product Sales','Product Sales'[Total Sales],DESC)
+
+Similar to the above examples, other functions such as CROSSJOIN, UNION, NATURALINNERJOIN , NATURALLEFTOUTERJOIN, INTERSECT, CALENDAR and CALENDARAUTO can be used for calculated tables.
+Since calculated tables are in-memory tables, it is recommended to estimate the table size in in advance for optimal performance.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Calculating MTD, QTD, YTD, Running and Cumulative Total.
+
+Running total will provide the total at a given point in time without having to sum the entire sequence each time.
+
+Calculating MTD
+MTD = TOTALMTD(SUM(Weblog[PageViews]),DimDate[Date])
+
+Calculating QTD
+QTD = TOTALQTD(SUM(Weblog[PageViews]),DimDate[Date])
+
+Calculating YTD
+YTD = TOTALYTD(SUM(Weblog[PageViews]),DimDate[Date])
+
+Calculating Running Total
+CummulativeTotal = CALCULATE(SUM(Weblog[PageViews]),Filter(ALL(DimDate[Date]), DimDate[Date]<=MAX(DimDate[Date])))
+
+Calculate Relative Weeks
+all these calculations are easily available in DAX for year, month and quarters. However, when it comes to weeks, there is no out of the box formula to compare week values directly.
+
+RelativeWeekNumber is 0 for the current week. Similarly, the value is -1 for the previous week and 1 for the next week.
+if you want to report on the last two weeks from today, then you can just use a filter where
+RelativeWeekNumber < 0 AND RelativeWeekNumber >=-2
+
+SQL - DATEDIFF(WW,GETDATE(),DATEADD(DD,-1,[Date]))AS RelativeISOWeekNumber
+
+DAX
+calculated columns that will store the StartOfWeek and StartOfCurrentWeek values.
+StartOfWeek = DimDate[Date] - WEEKDAY(DimDate[Date],2) + 1
+StartOfCurrentWeek = TODAY() - WEEKDAY(TODAY(),2) + 1
+
+The final step is to calculate the relative week value from the two calculated columns
+RelativeWeek = (DimDate[StartOfWeek] - DimDate[StartOfCurrentWeek])/7
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+CALENDARAUTO
+-Automatically create a calendar table based on database content	
+
+CALENDAR(MIN(Sales[Order Date]), MAX(Sales[Order Date]))
+- returns table with single column named Date containing contagious set of dates in given range.
+
+Year to Date
+SalesAmoutYTD :=
+CALCULATE( SUM( Sales[SalesAmount] ), DATESYTD( 'DATE[DATE]'))
+
+SalesAmoutYTD :=
+TOTALYTD( SUM( Sales[SalesAmount] ), 'DATE'[DATE])
+parameter is date column from calendar table not from sale table otherwise may get wrong results
+
+Handling Fiscal Year
+the last, optional parameter is the end of fiscal year
+default : 12-31
+
+SalesAmoutYTD :=
+TOTALYTD( SUM( Sales[SalesAmount] ), 'DATE'[DATE], "06-30")
+
+Same Period Last Year
+Sales_SPLY :=
+CALCULATE( SUM( Sales[SalesAmount]), SAMEPERIODLASTYEAR( 'Date'[Date]))
+
+Sales_SPLY :=
+CALCULATE( SUM(Sales[SalesAmount] ), DATEADD( 'Date'[Date], -1, YEAR) )
+
+Running Total
+SalesAmountRT :=
+CALCULATE( SUM(Sales[SalesAmount]), FILTER( ALL('Date'), 'Date'[Date] <= MAX( 'Date'[Date])))
+
+Moving Annual Total
+CALCULATE(Sum(Sales[SalesAmount]), DATESINPERIOD( 'Date'[Date], LASTDATE('Date'[Date]),-1, YEAR)) 
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+DAX queries
+
+DEFINE (Optional)
+The optional DEFINE keyword defines entities that exist only for the duration of the query.
+Definitions are valid for all EVALUATE statements. Entities can be variables, measures, tables, and columns. Definitions can reference other definitions that appear before or after the current definition. Definitions typically precede the EVALUATE statement.
+
+EVALUATE (Required)
+At the most basic level, a DAX query is an EVALUATE statement containing a table expression. However, a query can contain multiple EVALUATE statements.
+
+[DEFINE {  MEASURE <tableName>[<name>] = <expression> } 
+        {  VAR <name> = <expression>}]
+EVALUATE <table>  
+[ORDER BY {<expression> [{ASC | DESC}]}[, …]  
+[START AT {<value>|<parameter>} [, …]]]  
+
+DEFINE
+MEASURE 'Internet Sales'[Internet Total Sales] = SUM('Internet Sales'[Sales Amount])
+EVALUATE
+SUMMARIZECOLUMNS
+(
+    'Date'[Calendar Year],
+    TREATAS({2013, 2014}, 'Date'[Calendar Year]),
+    "Total Sales", [Internet Total Sales],
+    "Combined Years Total Sales", CALCULATE([Internet Total Sales], ALLSELECTED('Date'[Calendar Year]))
+)
+ORDER BY [Calendar Year]
+
+Returns the calculated total sales for years 2013 and 2014, and combined calculated total sales for years 2013 and 2014, as a table. The measure in the DEFINE statement, Internet Total Sales, is used in both Total Sales and Combined Years Total Sales expressions.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Rank on Sales and customer code
+
+Ranking Sales and Code =
+VAR MaxCustomerCode = MAX ( Customer[Customer Code] )
+VAR Result =
+    RANKX (
+        ALL ( Customer ),
+        Customer[Customer Sales] * MaxCustomerCode + Customer[Customer Code]
+    )
+RETURN
+    Result
+
+Sales and customer name
+
+	Name Ranked = RANKX ( ALL ( Customer ), Customer[Name],, DESC, DENSE )
+
+Ranking Sales and Name =
+VAR MaxCustomerName = MAX ( Customer[Name Ranked] )
+VAR Result =
+    RANKX (
+        ALL ( Customer ),
+        Customer[Customer Sales] * MaxCustomerName + Customer[Name Ranked]
+    )
+RETURN
+    Result
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Scalar Vs. Tabular Functions
+
+Scalar Functions
+Scalar function in a function that returns one single value. This value can be of any data type; Date, Numeric, Text, etc. for e.g. SUM function
+
+SUM/Average/Min/Max
+SUMX/MinX/MaxX/AverageX/CountX
+LastDate/FirstDate
+Calculate
+Related
+
+Tabular Functions
+Some functions return a table as the output, not a single value, a whole table. The table can have multiple columns or just a single column depends on the function used. But it would be a table structure with multiple values in it.
+
+ALL, AllExcept
+RelatedTable
+SamePeriodLastYear
+DatesBetween/DatesInPeriod
+Summarize/GroupBy
+TreatAs
+
+we can't use
+- Scalar Function to Create a Calculated Table
+- Tabular Functions to Return the output of a Measure or Calculated Column , This is because the function returns a table, and the measure expects a single value.
+
+** but we can use scalar function in table function as parameter & vice versa
+
+Restrictions
+
+There are some functions that can be used only in a specific context. For example; The Calculate returns a scalar value, but it cannot be used inside a GroupBy function. That is the limitation of the GroupBy function.
+
+Exceptions
+- Crossfilter function not scalar or table function, we have to use only with calculate
+
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Crossfilter function
+both DimProduct and DimDate have a single direction relationship with FactOnlineSales.
+By default, we cannot get the Count of Products sold by year:
+
+There are two ways to get the count of products by year:
+1.Turn on bi-directional cross-filtering on the relationship. This will change how filters work for all data between these two tables.
+2.Use the CROSSFILTER function to change how the relationships work for just this measure.
+
+When using DAX, we can use the CROSSFILTER function to change how the cross-filter direction behaves between two columns defined by a relationship. In this case, the DAX expression looks like this:
+
+BiDi:= CALCULATE([Distinct Count of ProductKey], CROSSFILTER(FactInternetSales[ProductKey], DimProduct[ProductKey] , Both))
+
+Data in a single currency, report with multiple currencies
+
+Sales Currency :=
+IF (
+    ISCROSSFILTERED ( 'Currency' ),
+    VAR SelectedCurrency =
+        SELECTEDVALUE ( 'Currency'[Currency Code] )
+    VAR DatesExchange =
+        SUMMARIZE (
+            ExchangeRate,
+            'Date'[Calendar Year Month Number],
+            'ExchangeRate'[AverageRate]
+        )
+    VAR Result =
+        IF (
+            NOT ISBLANK ( SelectedCurrency ),
+            IF (
+                SelectedCurrency = "USD",
+                [Sales Amount],
+                SUMX (
+                    DatesExchange,
+                    [Sales Amount] * 'ExchangeRate'[AverageRate]
+                )
+            )
+        )
+    RETURN
+        Result,
+    [Sales Amount]
+
+ALL is extremely useful whenever we need to compute percentages or ratios because it ignores the filters automatically introduced by a report
+Sales Pct := 
+DIVIDE(SUMX (Sales,Sales[Quantity] * Sales[Net Price]),SUMX (ALL ( Sales ),Sales[Quantity] * Sales[Net Price]))`
+
+ALL we declare the columns we want, whereas with ALLEXCEPT we declare the columns that we want to remove from the result.
+
+VALUES considers the blank row as a valid row, and it returns it. On the other hand, DISTINCT does not return it.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________\
+Dynamic Metrics
+
+Cost, quantity, revenue metrics display as selection in slicer
+create new measure selectmetrics
+
+selectmetrics = SWITCH(
+		TRUE(), 
+		"Cost" IN ALLSELECTED(Metrics([Metrics]),SUM(Sales[Cost]),
+		"Revenue" IN ALLSELECTED(Metrics([Metrics]),SUM(Sales[Revenue]),
+		SUM(Sales[Quantity])
+		)
+
+now use this measure in visualization
+Dynamic Title of graph
+title - title text (conditional formatting)  - create title measure and use this in conditional formatting
+title  = SELECTEDVALUE(Metrics[Metrics],"cost") --cost for default selection
+
+Data profiling, data distribution view in query editor
+sort by column month number in format ribbon of dax
+if time-intellienge on and we mulitple dates then mark sepecific table mark as date
+
+
+Dynamic filtering
+
+- for dynamic filtering dont publish report to my workspace
+- we have to go power bi services and add words to Link (?filter=Table name/field name eq 'Prashant') its static method
+- for dynamic we have to add hyperlink filed in table and change data type as Web Url
+- if i want to filter with two feild then add one column to table as 1 feild name-2 filed name & give to Link
+
+
+setting default slicer selection
+
+Default Selection = 
+IF(
+COUNTROWS(DISTINCT(ALLSELECTED(Film[CertificateID])))<COUNTROWS(DISTINCT(ALL(Film[CertificateID]))),[Total Dollers],
+IF(SELECTEDVALUE(Film[CertificateID])=3,[Total Dollers],BLANK()))
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+What If analysis
+
+-what is Impact of increased price of product on gross profit etc.
+we can change aggregate type of any measure in chart.
+
+- create variable to increased default price of product by 10% and provide slicer on page
+- based on value in variable price changes
+and analyze the impact of that on gross profit
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Drill Through
+
+- summaries level to detail level
+- going to one sheet to other sheet
+
+- create summary sheet with cust country and sales shows as pie
+- create another detail sheet where create table with column country, city, cust name, quantity, sales
+- add country to drill through filters area of the table (detail).
+power bi looks for common column between two charts ( or two sheets)
+
+- go back to summary sheet and right click on any country pie
+- now drill through option is available and shows sheets where are the drill through created.
+
+Now, enhance user experience. add city onto pie chart legend,just beneath country.
+enable drill down features. now click on country pie goes into that country city pie
+drill down - within hirerchy up and down
+drill through - between 2 sheets (summary data to detail data)
+
+- add city also to drill through filters area of the table (detail) and enable keep all filters option.
+otherwise click on drill down pie to city will not give that city detail data only. instead shows all city data.
+
+back button automatically created on detail chart
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Dashboard template
+you can create reusable template in Power BI.
+file- export- power bi template
+extension for this pbit
+
+Q&A preview
+we can ask questions to dataset
+modelling - Q&A setup
+based on dataset asked in questions. it shows best visulazation preview.
+
+Display tooltip Visuals
+- Create new page
+- In the page information properties, enable the tooltip
+- In the Page size properties, select type 'tooltip'
+- At Page 'Field' properties, Tooltip (keep all filters) enables drag sales on it
+
+now any charts has column sales shows tooltip page when we hover on sales values.
+we need to change required chart tooltip properties from auto to tooltip (we created).
+if you dont want to show tooltip to other chart, you can disable this from 'format'' properties of that chart 'tooltip' - disable
+
+Tooltip functionality will not work unless you check 'Report page tooltip' from File -> Options and setting - option - preview features
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Custom Visuals in Power BI
+
+- Custom visuals are created by developers using the custom visuals SDK. Developers use JavaScript libraries such as jQuery, D3, R-language scripts, etc. to create custom visuals from scratch
+
+Power BI custom visuals are divided into three categories
+
+Custom visual files - The custom visual files are the .pbiviz files that contain codes to run custom visual in your Power BI app.
+Organizational visuals - Organizational visuals are the visualizations, custom-made for use within an organization.
+Marketplace visuals - Marketplace visuals are tested and approved custom visuals from Microsoft and its fellow community members. 
+
+we can download custom visual from - https://appsource.microsoft.com/en-us/marketplace/apps?page=1&product=power-platform%3Bpower-bi-visuals&country=US&region=ALL
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Bookmarks & Toggle button
+
+- bookmarks are availbale in view sections (upper task bar) - bookmarks
+- bookmarks is defined as state of visualization as it capture
+
+let's you want to toggle between two charts (hide and unhide) using image(on/off) and bookmarks
+add on/off image overlap to each other
+- from selection pane, hide off image and hide pie chart. add this state as bookmark1
+- next hide matrix chart and hide on image. add this state as bookmark2
+
+by clicking on bookmarks we can toggle between charts.
+
+lets link on/off image with charts to toggle
+- enable action from format properties on image. link it to bookmark 2, vice-versa
+- control click on image to toggle
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Types of Filters
+
+There are three levels of filters in Power BI: report, page, and visual.
+1. Report-level filters are those that affect all of the data in the report, regardless of what you're looking at. Think of them as universal filters.
+
+2. Page-level filters only filter the data on a given page, which makes them useful for creating pages that focus on particular subsets of your data. For example, you can use page-level filters to make one page focus solely on revenue data, while the next page focuses on expense data. Page-level filters operate within the context of the report-level filters, which means that a page-level filter cannot override a report-level filter. They also cannot be programmed to filter the data on other pages.
+
+3. Visual-level filters only filter the data on a given visual, whether that's a table, chart, card, slicer, etc. These are the most granular filters you can apply to your data, and they operate within the context of both the page-level and report-level filters, which means visual-level filters cannot override them, nor can they be programmed to filter data on other visuals.
+
+Filtering Modes
+Each filter has two modes you can use when running your report: Basic Filtering and Advanced Filtering.
+
+In Basic Filtering, you are given a list of values which is scrollable and searchable. To search for a value, simply type a keyword or identifier into the search box, and the list of available values will automatically update based on the search criteria you entered. You can then select one or multiple entries from the list using the white checkboxes to the left of each entry.
+
+With Advanced Filtering, you won't see a list of values to choose from, but you can use rules to determine a range of values the report will return. For example, you can tell the report to show all Transactions with a transaction amount greater than or equal to $10,000.
+
+Slicer vs. Filter — What's the difference?
+Many Power BI reports use features called "slicers," which are objects embedded in the report body that allow you to interactively "slice and dice" your data. They come in a lot of different flavors, including checkbox lists, dropdown lists, buttons, and sliders. While they function a lot like filters do, they're not really the same thing. 
+
+By far the biggest difference is that, when you apply a filter, you don't get to pick and choose what parts of the report will be affected: if you apply a report-level filter, it will invariably filter all the data in the report, and a page-level filter will do the same for the page it's on, and so on. However, slicers are a bit more flexible in that they can be programmed to only affect certain objects on the page, and you can even change the manner in which a slicer affects an object.
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-
+What are the types of Storage mode and Data Refresh in Power BI?
+
+Storage mode and dataset types
+1. Import Mode
+Power BI imports the data from the original data sources into the dataset.
+Power BI copies the data, you must refresh the dataset to fetch changes from the underlying data sources.
+
+2. DirectQuery Mode
+Power BI does not import data over connections that operate in DirectQuery/LiveConnect mode. Instead, the dataset returns results from the underlying data source whenever a report or dashboard queries the dataset. Power BI transforms and forwards the queries to the data source.
+Power BI does not have to transform queries in LiveConnect mode.he queries go directly to the Analysis Services instance hosting the database without consuming resources on shared capacity or a Premium capacity.
+Because Power BI does not import the data, you don't need to run a data refresh. However, Power BI still performs tile refreshes and possibly report refreshes
+A tile is a report visual pinned to a dashboard, and dashboard tile refreshes happen about every hour so that the tiles show recent results. You can change the schedule in the dataset settings, as in the screenshot below, or force a dashboard update manually by using the Refresh Now option.
+
+Note : The Scheduled cache refresh section of the Datasets tab is not available for datasets in import mode. These datasets don't require a separate tile refresh because Power BI refreshes the tiles automatically during each scheduled or on-demand data refresh.
+
+3. Push Mode
+Stream analytics and other process
+
+Power BI refresh types
+A Power BI refresh operation can consist of multiple refresh types, including data refresh, OneDrive refresh, refresh of query caches, tile refresh, and refresh of report visuals.
+
+Data refresh
+
+For Power BI users, refreshing data typically means importing data from the original data sources into a dataset, either based on a refresh schedule or on-demand. You can perform multiple dataset refreshes daily, which might be necessary if the underlying source data changes frequently. Power BI limits datasets on shared capacity to eight daily refreshes. If the dataset resides on a Premium capacity, you can schedule up to 48 refreshes per day in the dataset settings
+
+You can also trigger an on-demand refresh by selecting Refresh Now in the dataset menu.On-demand refreshes are not included in the refresh limitation.
+
+Tile refresh
+Power BI maintains a cache for every tile visual on your dashboards and proactively updates the tile caches when data changes. In other words, tile refresh happens automatically following a data refresh. This is true for both, scheduled and on-demand refresh operations. You can also force a tile refresh by selecting More options (...) in the upper right of a dashboard and selecting Refresh dashboard tiles.
+
+Refresh of report visuals
+This refresh process is less important because it is only relevant for live connections to Analysis Services.
+
+Refresh of query caches
+If your dataset resides on a Premium capacity, you might be able to improve the performance of any associated reports and dashboards by enabling query caching. Query caching instructs the Premium capacity to use its local caching service to maintain query results, avoiding having the underlying data source compute those results
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+connecting to power platform
+
+- when we connect to power bi dataset which are publish on service it is any live connection & data tab,transform data option is missing
+- we only create measure and saveas new report and publish to power bi service
+- only shows The datasets in the list are all the shared datasets you have Build permission for, in any workspace
+- while connecting to live connection to power bi dataset promoted & certified dataset came first for use.
+- any one can promoted , certified only done by authorised user , we can also request for certify 
+
+Directquery to power bi data model and Azure Analysis Services source
+- for this we have to tick preview option & then connect 
+- To use DirectQuery for live connected sources, such as Power BI datasets and Azure Analysis Services, you must add a local model to your report. When you publish a report with a local model to the Power BI service, a dataset for that local model is published a well.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+What are Power PBIDS Files? Why should I use them?
+
+Power BI brings many reporting features, tasks, and tools to end consumers allowing those consumers to self-serve their reporting needs. However, there are times when it would be more conducive for a report designer to be provided with a pre-designed connection to a data source.
+
+
+The first step in the process is to create the actual PBIDS files. This process is starts with create a simple text file in JSON format that outlines:
+
+Version
+Type of connection
+Mode
+Connection details such as the server name, protocol and database name
+
+{   "version": "0.1", 
+  "connections": [ 
+    { 
+      "details": { 
+      "protocol": "tds", 
+      "address": { 
+                 "server": "server-name-here", 
+                 "database": "db-name-here (optional)",
+                 "schema": "schema name (optional) ",
+                 "object": "object name (optional) "
+                 } 
+      }, 
+      "options": {}, 
+      "mode": "Import" 
+      } 
+    ]
+}
+
+The version is set to 0.1 and nothing is immediately entered after the word connections. In the details section, the protocol for SQL Server is “tds”. The server name needs to be added and the database name, schema name, and object name can be optionally entered. Finally, mode can be either DirectQuery or Import.  If the database, schema, or object is not added, it will be requested in Power BI upon startup.
+
+To open a PBIDS file, you will need to open the file from Windows Explorer by double clicking on the file. 
+
+Working with Power BI and PBIDS
+After double clicking on the file, Power BI opens. Since we specified a database, a schema, and an object (a table), Power BI opens in Get Data mode with a preview of the noted object. Clicking on Load loads the data to the desktop design grid or alternately selecting Transform Data can be selected to make changes to the data set at the query level.
+
+PBIDS File for a Text File Data Source
+
+{ "version": "0.1", 
+ "connections": [ 
+ {
+ "details": {
+ "protocol": "file",
+ "address": {
+ "path": "C:\\Temp\\PBITextExample.txt"
+}
+},
+ "options": {}, 
+ "mode": "Import" 
+ }
+]
+}
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Binning and Grouping Data
+
+with grouping you are normally working with dimensional attributes whereas binning is generally grouping measure or numeric values into segmented buckets. Binning also gives you the opportunity to merge a numeric dimension into a predefined or rolled up group of values, often automatically.
+
+Grouping - right click categorical or dimension field 
+and click on new group
+- highlight all the values belongs to respective group and others
+- and use that group in visualization
+
+Bining - same as grouping but select type number and mention bin size
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+View field descriptions
+
+- it is very useful for report developer as well as end user for metadata information aboun any column,table & measure ( on hovering )
+- However, field descriptions applied to Power BI datasets are not visible when connecting via Microsoft Excel.
+
+Query field descriptions
+
+- if we want show are all measure from pbi file then use dax studion use following expressions.
+
+SELECT
+[Name] as [Measure Name]
+, [Description] as [Measure Description]
+, [Expression] as [DAX Expression]
+FROM
+$SYSTEM.TMSCHEMA_MEASURES
+WHERE LEN([Description]) > 1
+ORDER BY [NAME];
+
+- Just as measure descriptions can be retrieved via the the TMSCHEMA_MEASURES DMV, the following query retrieves the column descriptions from the TMSCHEMA_COLUMNS DMV
+- we can write same as sql statement but we can't join 
+- if we want create report containing which relationships use bidirectional cross-filtering?? then 
+
+1. Obtain the server and database parameter values of the Power BI dataset
+2. Query the DMVs of the Power BI dataset from a separate Power BI Desktop file
+3. Integrate and enhance the DMV data to support the visualization layer
+4. Develop the report pages
+
+to find GUID of server and database parameter in dax studio (p g 400)
+
+SELECT
+[CATALOG_NAME]
+, [DATABASE_ID]
+FROM $SYSTEM.DBSCHEMA_CATALOGS
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+_________________________________________________________________________________________________________________________________________________________________________________
+
+
+Power BI service
+
+- it is web based cloud service where you create, manage, refresh dataset and sharing dashboard, reports, streaming dataset.
+- sign in to both desktop and powerbi.com free
+note: power bi only allowed corporate email. not personal email
+
+How to publish desktop app to power BI service
+- from home- share- publish
+- it will ask for workspace (My workspace or other)
+you can only create new workspace in power BI pro version.
+also we can't refersh data schedule in power bi free version directly. you can do it by installing gatway. but scheduling not possible in free.
+free version no ability to sharing and collobration options.
+
+- you can create new dashboard from publish reports as well. you need to pin the chart and select dashboard name
+also you can create image, texbox tile in power BI service
+
+Gateway
+-it is service to connect on-premise to cloud. if you want to publish or move on-premise data to cloud or do refresh gateway should be on.
+- download gateway from power bi service or home page.
+there are two types of installer
+1. on-premises data gateway (recommanded) (pro)
+2. on- premises data gatway personal mode (free version)
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-
+Security in Power BI
+
+Security in Power BI comes in several different forms. First, the license (pro vs. premium) is required to access the Power BI Service in the cloud (or for related on-premises resources in Power BI Report Server). Next, access has to be granted to datasets, reports, and more appropriately the application housing the dashboard, reports, and datasets. This level of access is centered on access to the whole application and its report or dashboard. This access is similar to permission granted to a particular folder in a file system; either you have access to the folder, or you do not.
+
+Furthermore, permissions can also be assigned within individual workspaces; however, workspace permissions generally center on member and contributor (edit), viewer, and admin privileges within the workspace and is not directly related to row level permissions. Instead, the member and contributor permissions provide the ability for a report consumer to actually edit the report within the Power BI Service (which in turn means they could adjust the Row Level Security options). To the contrary, the viewer permissions allow a user to just view the workspace and related reports (not datasets), but that same user cannot edit the reports within a workspace. Finally, the admin role allows a user to fully administer a workspace including updating and deleting it.  Again, all these permissions only indirectly will impact Row Level Security and only within the context of being able to edit a report.
+
+Security in Power BI is classified broadly in 2 categories.
+1. Data Level/ Row level security - This is first applied during development on the power BI desktop by creating roles. The pbix file then published on Power BI service, where you assign members to the role.
+
+Example : CEO can see all countries data but manager can see only their respective country data
+- Create a new sheet. Drag and drop Customer_Country and Sales.
+- Next goto the Modeling tab and click on Manage Roles.
+- Click on Create a role - "Country-UK" and Select D_CUST.
+- Create a DAX Calculation [CST_CNTRY] = "UK".
+- Similarly create roles for US and IND countries.
+- Use the view roles option to validate the security.
+- Publish the PBIX file onto the cloud service. 
+- Goto the security settings from My WorkSpace -- Datasets --Security.
+- See the roles created on the power bi desktop and you can add email address or the security groups to provide access.
+It would be very beneficial if the members added were active direct groups created specifically to add users to set roles, sales territory
+- Test the security by clicking on the 3 dots (...) next to each role.
+ test how our role is working. Click on the ellipse button next to the Role name, allows for the selecting the Test as role link.
+
+when a user has access to get to the report, dashboard, or APP, but has not been assigned as a member of a role.  That individual will see NO data.
+Also, if a user had edit permission for the report and dataset (generally a content administrator for instance), then that user will see all data and can change their own membership within a role.
+
+Table-based Row level security methods
+we switch the Row Level Security to dynamically use the user who is signed into the Power BI Service and compare it to a value in a table.
+the fixed method requires each role to be pre-defined in the Power BI file (or changes required to be made after the fact) whereas the table-based methods only requires updates or inserts into a table to effect a change.
+
+To identify the user who is interacting with the report. Within Power BI, two different DAX functions provide user information:
+USERNAME() -provides the domain name and the username of the user that connected to Power BI within Power BI Desktop (Domain / UserName)
+USERPRINCIPALNAME() - user information in Power BI Desktop
+
+both functions provide the login email address of the user connecting to Power BI Services when reviewing the report or dashboard online
+ The table at a minimum needs to contain two items: 1) username and 2) the related category value which will differentiate access
+
+created a simple user permissions table which includes an integer ID column called User_Key, an email username field called User_Name_ID, finally a sales territory field called appropriately, Sales_Territory.
+if a user needs access to 3 sales territories, a row for each user sales territory combination must be inserted.
+
+The newly created user permission table must be added to the model.
+Finally, the relationship between the fact table or category dimension and the user permissions table must be set.(JOIN)
+we also must create a role that checks the User_Name_ID in the Dimension User_Provision table and compares it with a call to the DAX UserName function.
+ex. User_Name_ID = USERNAME()
+
+Using table-based row level security adds additional flexibility to a Power BI dashboard’s security infrastructure. This method allows for a more scalable method of limiting users view of sensitive data and can be integrated with other security processes.
+
+2. Access Level - This security is applied at the workspace/ app level.
+below can be access level security
+
+Create an App Workspace.
+- mention it is private or public and its name
+- While creating a workspace, you can set visibility and the access levels. add member to workspace (admin or member)
+- Once the workspace is created, you can publish the app.
+- you can choose specific content or all while publishing app.
+- you can also provide security to app whether entire organization or specific indiviual or groups.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Create Report in workspace
+
+- Goto the Workspace area - BDCS workspace, and then click on Create + icon.
+- Select report and it will ask you to select a dataset.
+- Select dataset, and then it will open up the Power BI canvas, you have known.
+
+you can not create calculation as in power BI desktop on service.
+Power BI is self service analytics tool because expert created modelling dataset, report can publish as app.
+give access to business users to that app. so they will create their visualization own.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+creating dashboard in power bi service
+
+- for this we have to go to perticular report and just pin visual tile to dashboard , also we can add excel content from power bi publisher.
+- default if user click on any tile open that perticular report, if i want to another dashboard so we have to use edit details option on visual tile.
+- we can add tile as video and give external youtube link
+
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-
+Subscribe and Share Report
+
+This features only available on Power BI pro version
+
+-Now that you have created several pbix files and published them on the Power BI cloud service as reports - let's see how you can subscribe & share reports.
+-Open a report in the Power BI Service, and then click on the Subscribe button the top right for alerts.
+-Share the report by Printing the report.
+-You can also share the report by Publishing to web, Sharepoint, Powerpoint or generate QR code.
+- you can not subscribe row level artifacts.
+
+Export report via Powerpoint, PDF, Mail, Sharepoint online
+
+Sharepoint online provide URL link of report which can be embedded into company website
+sharepoint and generate QR code option only available to pro version
+_________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Import vs DirectQuery Mode
+
+-Owing to the limitation of the amount of data (100 GB) you can import in the pbix file, there is an option of overcoming the limit by using DirectQuery Mode.
+
+Import - data is extracted from source and store it in power bi (pbix) file and publish to cloud and required refresh
+Directquery - live connection. no data push at pbix file. every generation and iteraction to report queries goes back to on prime or cloud.
+On prime required gatway connection and it should up all the time. cloud not required any connection
+
+DirectQuery Mode
+Pros:
+- Unlimited Data
+
+Cons:
+- apparent slowness in the query response
+- Gateway needs to be constantly running
+- No DAX support
+- No data model formatting in the Data tab
+- No multiple data sources support
+- No Q&A support.
+
+directquery mode is used where you have lots of data and big summarization of data is not possible at database side (Data modelling).
+just show raw data.
+_______________________________________________________________________________________________________________________________---------
+ Advanced PBIX Exploration
+
+• Report  - Layput of the power bi visual reports
+• [Content_Types].xml - includes the content structure of this folder in xml format
+• DataMashup - includes everything about power query-M scripts, structure of queries, parameter, and functions
+• DataModel - includes the data in the model in compressed format
+• DiagramState - stores the table and matrix information
+• Metadata - contains all lables(Names). this is mapping GUIDs
+• SecurityBindings - Row level Security configuration in the Power BI stored in binary format.
+• Settings - Power BI settings menu options
+• Version - Version of the file
+_______________________________________________________________________________________________________________________________---------
+
+Content Packs in Power BI
+
+Content packs provide a way to share Power BI objects, such as reports, datasets, or dashboards with individuals within your organization. 
+The sharing takes places on the Power BI website and can be shared with just one individual or with multiple groups.
+The content packs provide a central location for organizations to create and maintain a standard report that can be shared among users.
+
+One of the first items to note about content packs is you need to be using Power BI Pro in order to be able to deploy and share content packs.
+ Also content packs can include:
+Reports
+Dashboards
+Datasets
+Excel Workbooks
+
+content packs are made available only on your organization's Power BI website and any member who has access to the content pack has read only access to the data deployed in the pack (except for SSAS connections which use the user id of the person running the datasets / report to determine access). Once the content pack is deployed, future changes require a "republish" to be pushed out to anyone using that content pack unless the user has copied the content pack objects to a new dashboard except for security changes. If a user does copy and personalize the content pack's objects, then these items switch from read only to customizable.
+
+Creating and Using Content Packs with Power BI
+- Setting - create content pack
+- ext specify which users / groups will have access to the content pack, title it, and give it a detailed description.
+-Finally, we can upload or assign the content pack an image logo and most important, we select which dashboards, reports, and datasets are included in the content pack (this is why we must upload the items to the Power BI site first). You will notice that if you select a specific dashboard, then the related reports and datasets are automatically selected (see the grayed check boxes). Our last step is to click the Publish button.
+
+On the Get Data screen we use the left most option, My organization "Get" which is allows us to select content packs which have been published by Power BI designers within our organization.
+After clicking the Get button, we can now select available content packs from our organization
+
+Power BI Content Pack Security
+
+Now that our content pack is published, it would be a good time to discuss some of the security features of a published content pack. When you deploy a content pack via the publish function, you own that content pack and can make changes to the content pack including: 1) deleting 2) republishing 3) adjusting permissions 4) resetting refresh rates. We can also "view" the content pack.
+
+The good and bad of editing a content pack is once the pack has been published, any changes will require a content pack to be republished. The process of republishing a content pack pushes the changes to any and all Power BI users who have added the pack to their own dashboards. If you, as the content pack owner delete any objects from a content pack, the deleted object will be automatically removed from any related content packs that others have incorporated into their dashboard. As shown below, you are warned of this issue when deleting a content pack.
+
+To the contrary, editing, though, gives you the ability to adjust: 1) the users and groups who have access to the content pack, 2) the title, the description, 3) the related images, 4) finally which dashboards, reports, and datasets are available for this content pack. The same rules that applied to deleting also apply to updating. If you remove or change an object from a content pack in the update mode, these changes will be pushed out to all users using that content pack when the content pack is republished. Even if a user has copied and then customized a content pack, that user will receive notification that an updated version of the content pack is available. If a user is removed from the permissions to a content pack, then they will lose all related content pack objects the next time they open up that content pack (even if they added other customized objects to a copied dashboard).
+
+_______________________________________________________________________________________________________________________________________________________________________
+Connect to on-premises data sources with Power BI Personal Gateway
+(How do I connect Power BI Online to on premise data sources?)
+
+Currently Power BI Desktop connects easily to online datasources or content packs, but not to on premise datasources without the assistance of the Power BI Personal Gateway (I am a bit surprised that the team used the term Personal, as connections can be made to multiple sources that are not "so personal" in nature). Thus in order to connect to on premise (on-prem) data sources, you will need to utilize the Power BI Personal Gateway tool
+
+- Download power bi personal gateway from powerbi.com and configure it with azure sign in platform.
+-You will of course need to login using the same PowerBI account/credentials you used during the Personal Gateway installation and setup. We will specifically be working with the Datasets section.
+- To complete the refresh connection, we will need to click on the Dataset, The settings window will open, and you will want to click on the Schedule Refresh option to complete the online setup.
+- If all the connections are setup correctly, then the Gateway Status will show as "online".
+
+Finally, we can set the refresh schedule for the dataset. Please note a couple items about the schedule:
+You need to "switch" the Keep your data up to date to "Yes". I found that option was not quite intuitive; just click the bar to set to yes--#1
+The Refresh Option available will be based on your account type. Since I am using the basic edition, I can only update daily --#2
+You need to add a specific time for the refresh to take place, otherwise the update will occur as 00:00--#3
+You can add multiple update times--#4
+Be sure to click Apply when finished setting the schedule--#6
+
+If you checked "Send refresh failure notification email to me", then upon failure, you will receive a notification similar to the below message.
+
+You can manually Refresh the dataset, by going to the dataset settings and then selecting Refresh Now.
+However, if a refresh is already occurring, a new refresh will not be allowed
+
+Power BI Enterprise Gateway
+
+Personal Gateway contains some limitations which include limited refresh options, limited immediate refreshes, and limited administrative methods for maintaining organization wide connections to various databases and data sources. That is where the BI Gateway - Enterprise comes onto the scene.
+
+The Enterprise Gateway provides a central location for organizations to create and maintain connections to a sundry list of data sources and provide Power BI Desktop users with easy access to these shared data source connections. Furthermore, the Enterprise Gateway provides security administration to control which users can access these shared data sources via the Enterprise Gateway (of course, end user may have other methods of accessing the data).
+n
+Installing and Using the Power BI Enterprise Gateway
+
+- If the install is successful, then the below screen will appear. Our next step is to sign into your Power BI account to finish the configuration of the gateway.
+- Depending if you are signed in or not, you may get your organizations sign in screen which is similar to the below screen print.
+- Our next step is to configure the Gateway settings by defining a Gateway name and recovery key.
+When we click configure, the Gateway is confirmed and added to the PowerBI setup for our account.
+
+We are now ready to add our data source by selecting Close & Add data sources button. Here is where we specify our data source name and data source type. Based on the data source type, various additional fields will appear, primarily things such as:
+
+Server Name
+Database Name
+User Name
+Password
+Security or Authentication methods
+Advanced setting specific to just that data source type
+
+-Our final configuration step is to tell the gateway who can access this newly created data source; this task is completed by simply clicking the Users table and then entering the user's email address.
+
+If after we have configured the gateway, we need to make changes to it, we can make adjustments only on the Power BI website. We do that by going to the settings gear button and then select Manage gateway.
+
+The connection string configured in the Power BI Desktop file needs to match a data source already configured in the Power BI service. When a match is found, it will use the gateway that the data source belongs to."
+- data sources residing in Infrastructure-as-a-Service (IaaS) virtual machines (VMs) also require a data gateway. This is an important exception as cloud data sources generally do not require a gateway. For example, Platform-as-a-Service (PaaS) sources, such as Azure SQL Database, and Software-as-a- Service (SaaS) solutions, such as Google Analytics,Salesforce do not require a gateway.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Gateway clusters
+
+- each gatway clusters has many gateways instance , if we import data from different sources like sql,azure,SSAS,excel then same cluster responsible for refresh.
+- Power BI service will distribute (load balance) the query requests across the multiple gateway instances within the cluster.if any instance not work then its routed to another instance within same cluster.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Staged deployments of power bi content
+
+for migrating content within three stages 
+- The Power BI REST API is used to migrate completed content from the development workspace to the test workspace.Supported REST API operations, such as a clone report and a rebind report, are called via PowerShell scripts
+
+- dev workspace - we have to first publish pbi file to this worksapce and create dashboard from that file.and create app for review
+- test workspace - here we have to create test app for tester to review the content.A user acceptance testing (UAT) user or team reviews the content relative to requirements and provides feedback
+- prod workspace - A production app is published or updated and made available to groups of users for their consumption
+
+-- Groups of business users access and consume the dashboards and reports via the production app from any device
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Power BI REST API ( p g 378)
+
+- The Power BI REST API provides programmatic access to resources in the Power BI service including content (datasets, reports, and dashboards), application workspaces, and the users of these resources. This access enables organizations to automate common workflows, such as cloning a report to a different workspace or triggering a dataset refresh operation via familiar tools, such as Windows PowerShell
+- Windows PowerShell is a task-based command-line shell and scripting language. It's primarily used by system administrators to automate administrative tasks. For example, PowerShell script files (.ps1) are commonly used in scheduled data refresh processes for SSAS models.
+
+step for call power bi REST API ( through https:/ / dev. powerbi. com/ apps:)
+
+1. Sign in with the Azure Active Directory account ( it should be same as power bi service account )
+2. Describe the application being registered ( give application name and Home Page URL,app type as native app ,Redirect URL: urn:ietf:wg:oauth:2.0:oob)
+3. Choose the Power BI APIs to access
+4. Click Register App & store Client ID
+5. after client ID we also requires object id ( id associated with report,workspace,dataset )For example, to clone a report to a separate app workspace and then bind the report to a dataset in the new workpace
+6. identify object IDs from URL https://app.powerbi.com/groups/c738f14c-648d-47f5-91d2-ad8ef234f49c/settings/datasets/61e21466-a3eb-45e9-b8f3-c015d7165e57
+- app workspace - groups/c738f14c-648d-47f5-91d2-ad8ef234f49c
+- dataset - datasets/61e21466-a3eb-45e9-b8f3-c015d7165e57
+7. Run powercell scripts to copy paate reports from one workspace to another.
+
+Alternatively, an application can be registered via the App registrations menu of Azure Active Directory.
+
+
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Power BI Report Server  ( http://DESKTOP-AU375G0\PRASHSQL/ReportsPBI/browse/ )
+
+- Power BI Report Server is an on-premises report server that is used to host Power BI reports. The reports hosted on the on-premises report server are displayed to the users via a web portal. You can also host paginated reports, mobile reports, and KPIs on the report server because it is built upon SQL Server Reporting Service’s (SSRS) architecture. You can access and view all the types of reports on report server using a web browser, mobile device or via email.
+- Users can export data from reports hosted on a Report Server to a CSV format file.
+- if we want to upload power bi desktop report in Report server then we have to install Microsoft Power BI Desktop (Optimized for Power BI Report Server - May 2020)
+- a new Power BI Report Server is released approximately every 4 months.
+- The four main components of a Power BI Report Server deployment include the report server instance, the Report Server Database, Active Directory, and the data sources used by the reports.
+
+Report builder for paginated report
+- two different report builder available sql server and power bi, we can istall it from power bi service- download
+- first we have add data source and then add dataset and use query designer or write custom sql
+- for upload go to - reportserver - Upload and select file
+- we can also edit power bi version report in sql version of report builder and save it on report server ( left corner connect to report server )
+- we can also edit paginated report directly on repot builder sql version only and for power bi version we have to download that pbi file.
+- advantage of power bi report builder version is we can directly share paginated report to power bi service ( only for premium account just log in )
+
+_______________________________________________________________________________________________________________________________________________________________________
+Power BI Embedded
+
+- power bi embedded use when end user dont have access on power bi
+- it is use for embedding dashboard in third party application 
+- for this we have power bi pro account (master account ),workspace (admin should be master account user)
+
+power bi provide following SDK for embedding
+- ASP.net
+- JAVA script and angular JS
+
+alternate ways for Embedding
+- publish via web
+- secure embedded (when we use this we will get link and Html Iframe link, but for first time user access that report they need to log in)
+- Embedd in sharepoint online 
+
+Prerequisites for Embedding
+- power bi desktop
+- one power bi pro license
+- active subscription of azure portal
+- power bi embedded license for production 
+- visual studio
+
+Embedding common steps
+- create app workspace to publish report
+- Register power bi application in azure AD (power bi service and azure e mail id should be same, we can create app using power bi portal or azure portal )
+- Assign permission on Azure AD (Give permission to created app & power bi service permission )
+- Create azure app function to generate token
+- Call Azure app function using Javascript SDK and Embed report to your third party App.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Dashboard data classifications
+
+- admin can classify the dashboard data 
+- Only Office 365 global admins or users mapped to the Power BI admin role will have visibility to tenant settings within the Power BI admin portal, which includes data classification for dashboards.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Iterate Json link pages till last page
+
+create GetLastPageNumber function for column lastnumber page and lastpage extact from links - convert to table and splitting columns
+M -scripts
+let
+Source1 = GetLastPageNumber(),
+Starts = List.Generate(()=>1, each _ < Source1 , each _ + 1),
+#"Converted to Table" = Table.FromList(Starts, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Microsoft had to make compromises in the design to make this process fast, and one compromise is that there can only be 1 active relationship between 2 tables.
+
+when we need multiple relationship and wants to join both of columns to single column of another table. 
+there are two relationship created. Active and Inactive (dashed line). on can switch between active and inactive.
+but how to use inactive relationship in calculation.
+
+Count of Orders Shipped :=
+CALCULATE(
+    [Count of Orders],
+    USERELATIONSHIP(Calendar[Date], Sales[Ship Date])
+)
+The relationship MUST exist in the data model and be set as inactive for the above to work.
+
+Alternatively You Could Load Another Table.
+
+1. If you opt for multiple relationships:
+Only one of the relationships will be active
+The other relationships can be accessed by using the USERELATIONSHIP function inside of CALCULATE
+There is a limitation with this approach because you can only use a column from your lookup table once in your Pivot Tables.  In the example above this meant you could not use the Calendar[Date] column twice in the one Pivot Table.
+
+2. If you opt for multiple lookup tables:
+You will have 2 sets of columns that CAN be used together in the one Pivot Table.
+You will need to be careful that users are not confused, and should consider naming the columns in the lookup tables with unique names like Calendar[Order Date] and ShipCalendar[Ship Date] for clarity.
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Dax
+
+FILTER and CALCULATETABLE
+
+- the both dax return filtered table base on condition, but for calculatetable we can give multiple conditions ( for filter we have to use AND operator.)
+- you should always consider the CALCULATETABLE option, because of the different behavior when you have nested calculations.
+
+From SQL to DAX: String Comparison
+
+-  functions like FIND and SUBSTITUTE are always case-sensitive, whereas SEARCH is always case-insensitive.(find is faster than search because of sensitive)
+- alternate we can use CONTAINSSTRING and CONTAINSSTRINGEXACT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- when we use if condition both return value should be text or number
+
+date function
+- if we want exipry date of any product then use EDate - Expiry Date = EDATE('Calendar'[Date],3) & for last date Expiry End date = EOMONTH('Calendar'[Date],3)
+- for Age calculation - Age = DATEDIFF(Customers[BirthDate],TODAY(),YEAR)
+
+text function
+- extracting words from any value before or after characters -  LEFT(Customers[EmailAddress],FIND("@",Customers[EmailAddress])-1)
+- for combining columns use Full Name = Customers[Prefix]&" "&Customers[FirstName]&" "&Customers[LastName] concatnate only conbine 2 columns
+
+logical function
+- nested if - Mermbership Card = IF(Customers[AnnualIncome]>"140000","Gold",IF(Customers[AnnualIncome]>"90000","Platinum",IF(Customers[AnnualIncome]>"70000","Silver","No Card")))
+- if we want to find target customer with multiple conditions.(logical test)
+
+	Target Customer = IF(Customers[Gender]="M" && Customers[AnnualIncome]>120000 && Customers[TotalChildren]>3,"Yes","No")
+ And & OR function only take two test in power bi but in excel its not limited.
+	with OR condions
+	Movie Ticket = IF(Customers[Mermbership Card]="Platinum" || Customers[Mermbership Card]="Gold","Allow","Not Allowed")
+	
+implicit V/s explicit
+implicit means option available on right click on field
+explicit means we create seprate measuers & its reuseable
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+data modeling best practice
+
+avoid long table (columns)
+Disable auto date-time (it will remove atomatic hierarchy from calendar table ),create datekey by removing slash
+- Fewer decimal places and more abbreviated date formats consume less space in reports and are easier to visually comprehend in dashboards.
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+- Variable names in M expressions cannot have spaces without a hash sign and double quotes
+- The M engine also has powerful "lazy evaluation" logic for ignoring any redundant or unnecessary variables
+- if i want check any function on M query then type that function without brackets.
+- When import data from server Data source credentials and settings are not stored in the PBIX file but rather on the computer of the installed application.
+- The M transformation functions supported in DirectQuery are limited by compatibility with the source system. The Query Editor will advise when a transformation is not supported in DirectQuery mode
+- DAX Studio can provide visibility to the specific queries sent to the source.
+- Azure SQL Data Warehouse is not recommended for Power BI in DirectQuery mode
+- However, you can configure DirectQuery models to send inner join queries via the modeling window's Assume referential integrity setting for better performance.
+- if we have to compare row with previous row then add two index start with 0 and 1 respectively and self join to get result.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Nested join versus flat join
+- Table.NestedJoin() default left outer join , Table.Join() default inner join
+- For performance reasons, Table.NestedJoin() should not be used without a Table.ExpandTableColumn() function removing the column of tables.
+
+M Expression generated by automatic data type detection
+- If even one of the source columns is removed or revised in the future, the query will fail due to the dependency on all original source columns.
+- The Value.NativeQuery() function passes a T-SQL statement against the database specified by the AdWorksProd query
+
+Data Type
+- A Decimal data type is an approximate and can produce inconsistent reporting results due to rounding. Converting to a Fixed Decimal type provides 4 decimal places and ensures consistent results.
+- Automatic type detection is not used with structured relational database systems such as SQL Server.only apply for flat files and Excel workbooks.
+- Precision is the number of digits in a number. Scale is the number of digits to the right of the decimal point in a number. For example, the number 123.45 has a precision of 5 and a scale of 2.
+- report user follows different date format then change using locale option.
+- M library details for every function are made available by entering the function without any parameters.
+
+Building a Power BI Data Model
+
+data warehouse bus matrix
+- A matrix of business processes (facts) and standard dimensions is a primary tool for designing and managing data models and communicating the overall BI architecture
+
+- importmode model is able to support a large amount of data (for example, 50M rows) and still perform well with complex analysis expressions.
+- Assume Referential Integrity relationship setting in DirectQuery mode models. This will generate more efficient inner join SQL queries against the source database.
+
+IMP **page no 454
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+- if we apply row level security & hide some column field then hide field are still able to see by that users.
+
+Pricing analysis Measures
+
+Effective Unit Price = DIVIDE([Reseller Sales Extended Amount],[Reseller Sales Order Quantity])
+25th Percentile Unit Price = PERCENTILE.INC('Reseller Sales'[Unit Price],.25)
+75th Percentile Unit Price = PERCENTILE.INC('Reseller Sales'[Unit Price],.75)
+Maximum Unit Price = MAX('Reseller Sales'[Unit Price])
+Median Unit Price = MEDIAN('Reseller Sales'[Unit Price])
+Minimum Unit Price = MIN('Reseller Sales'[Unit Price])
+Range of Unit Prices = [Maximum Unit Price] - [Minimum Unit Price]
+
+DAX
+
+- ISFILTERED() is limited to a single column in the model and is specific to the given column
+- ISCROSSFILTERED() can check a single column or an entire table. Filters from other tables are included in evaluation.
+- The TREATAS function applies the result of a table expression as a filter to the columns of an unrelated table. In other words, you can use it to apply filters to a table while there is no relationship present.
+- HASONEVALUE function check that particular column has distict value or not, HASONEFILTER check that whether filter directly apply on that column (direct filter requires)
+- TREATAS function use in filter context for alternate to dax CALCULATE(SUM(Film[BoxOfficeDollars]),Film[GenreID] in {4,5}) TREATAS dax - CALCULATE(SUM(Film[BoxOfficeDollars]),TREATAS({(2007,12),(2008,1)},Date(yearnumber),date(monthnumber)))
+- if we want to create hirarchy then use PATH function. the PATH() function is not supported in DirectQuery models.
+- for changing data type to web url , URLS must start with certain prefixes
+
+Report
+- In order for Q&A queries to access a dataset and its dependent reports, at least one tile of the given Q&A dashboard must be dependent on this dataset.
+- Download the Color Blind Friendly Report Theme from the report theme gallery (https://aka.ms/pbithemes).
+- The Color Blind Friendly file is ColorblindSafe-Longer.json. Click on the download link and save the file.
+- From the Report View, click on the Switch Theme dropdown and select Import Theme and select that file
+- You can manage the front-to-back order of visuals in a report, often referred to as the z-order of elements.
+- Switching to landscape orientation on phone will open the report in the standard desktop view whether phone layout has been configured or not.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Slicers
+- For long lists of text values, click on the ellipsis to expose the search bar and enter the text string
+- Relative data option very useful when we have to use date data type slicer
+- DAX measures cannot be used to define Report and Page level filters.Additionally, Report and Page level filters can be overridden with DAX measures via the CALCULATE() and CALCULATETABLE() functions.
+- keepallfilter and values use in filter are same.
+
+Dashboard
+
+- if row level security applied then Q & A will not work.
+- while setting Q & A Avoid reusing the same synonym across multiple entities, as this can lead to incorrect query results.
+- Color saturation (Diverging) can only be applied against a single value field—this option is not available when multiple values are used.
+- for creating Drill trough between two report we have to create Detail report with cross filter option on and enable cross filter drillthrough option on power bi services for summary report, the both report should have on same workspace.
+
+
+Configure Report Server for Power BI:
+
+Open reporting services configuration manager
+Click on the Power BI Integration tab and select Register with Power BI
+
+
+Power BI publisher for excel
+
+- for using power bi dataset in excel - Select Use an External Data Source from the Create PivotChart dialog. Click the Power BI connection.
+
+- Excel online does not currently support the refresh of external data connections. Therefore, though it's possible to publish the workbook from Excel to Power BI and then pin items from the workbook report in the Power BI service, once published, the workbook would not be refreshed. By pinning items directly from the Excel workbook to the dashboard, the connection to the dataset hosted in the Power BI service must be periodically refreshed and the Pin Manager dialog in the Power BI Publisher for Excel can be used to update pinned tiles.
+
+- To avoid this manual and local refresh process, Excel report visuals can be built on top of an Excel data model, and this Excel workbook can be published to the Power BI Service. Published workbooks, containing data models, can be configured for scheduled refresh in the Power BI Service, and their dependent reports will be updated to reflect these refreshes."
+- from ssrs to power bi we can't pin tables, matrix, or list report items from SSRS reports.
+- For pining visual from SSRS to Power bi select Power bi icon & and we only see that visuals we can able to pin.
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+Configure data alert
+
+- Alerts can only be configured on dashboard tiles of standard gauge,KPI, and card visuals, and they only work with numeric data types.Custom visuals, streaming data tiles, and date datatypes are not currently supported.
+- Only the user who configures the alert can see the alerts in the Power BI Service.
+- for this we have to give condition like share market alert.
+- Data alerts can also be set and viewed in the Power BI mobile apps.
+- if we want automate email then Open Microsoft Flow in Office 365.Enter Power BI in the search bar and select Trigger a flow with a Power BI datadriven alert:
+
+Time intelligence
+-The use of CROSSJOIN() is necessary to remove filters on columns from separate tables of the model. A single ALL() function can be used to remove one or more columns from the filter context of a single table such as ALL('Product'[Product Color],'Product'[Product Class]).
+
+Role playing Dimensions 
+- Dimensions are often recycled for multiple purposes within the same database.  For instance, a “Date” dimension can be used for “Date of Sale”, as well as “Date of Delivery”, or “Date of Hire”.  This is often referred to as a “role-playing dimension”.
+- Basically, if the same dimension is used more than once with different names in the cube then it is called the role- playing dimension.  For example, suppose we are designing a cube which captures purchasing data, we can have multiple dates in this scenario like Order Date, Ship Date, Order Received Date, etc.  In these kinds of situations we need to have different date keys stored in the fact tables (like OrderDateKey, ShipDateKey etc…) to get the different date information while browsing the cube.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

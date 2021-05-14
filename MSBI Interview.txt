@@ -1,0 +1,72 @@
+what is difference between derived & calculated measure?
+
+- derived measure are created before aggregation & its store in cube.
+- calculted measures are created after aggregation & its not store in cube.
+_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+what is maximum size of dimension
+- 4gb
+_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+can i combine data from multiple data sources in ssas?
+
+Yes, with help of primary data source & secondary data source we can import data
+- we have to enable option OPENROWSET in primary data source.
+- primary data source must support OPENROWSET option ( thats why we use SQL server as primary data source.)
+_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+what is perspective?have you work on perspective?
+
+- perspective is use to reduce complexity of cube, with the help of this we can hide elements like measure groups,dimension,hierarchy.
+- it is same as SQL Views.
+_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+what is factless fact table?
+
+- it is kind of table but does not contains any measures , its only contains dimension keys.The existence of the relationship itself is the fact.
+- There are two types of factless tables: One is for capturing an event, and one is for describing conditions.
+_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+what is difference between data mart & data warehouse?
+
+- data mart is subset of data warehouse.
+- for example a company's data warehouse contains contains data mart like finance,HR etc.
+_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+what are the different type of storage modes in ssas?
+
+1 - MOLAP ( default mode ) - multidimensional online analytical processing
+2 - ROLAP - Relational online analytical processing 
+3 - HOLAP  -  Hybrid Online Analytical Processing
+_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+what is SSAS?
+
+- it is help to perform online analytical processing & data mining functionality.
+- help us to create multidimensional & tabular model
+- we can also connect to different data sources.
+- we can create data mining models from data sources.
+_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+What is data source?
+
+- it is connection string between RDBMS & analysis services.
+- we have to give some aurguement while creating connection string.(provider,server name,database name & impersonation information)
+_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

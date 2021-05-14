@@ -1,0 +1,1739 @@
+Sql is structured query languages 
+Its not case sensitive language 
+when excute query cross check database name in dropdown select
+
+Semicolon is the standard way to separate each SQL statement in database systems that allow more than one SQL statement to be executed in the same call to the server.
+
+What is database model??
+- storage of data in orgnized & structure way is called database.
+- the technique which follow in database to make structure & orgnize data is called database model.
+
+different model in dbms
+- hierarchial , network , relational ,object oriented , document oriented ( no sql datatabse )
+
+
+RDBMS ( most popular oracle, my sql , sql server , db2)
+its store data in form of table
+
+composite key - primary key form with 2 or more column 
+foreign key - many value column
+primary key - unique value column 
+_______________________________________________________________________________________________________________________________________________________________________
+create database & table 
+- just right click on database then give name
+- right click on table & provide field name & datatype & set key
+
+CRUD operations ( create , read , update , delete of table )
+- we can insert data using query & wizard ( right click option )
+
+	insert into dbo.EmployeeInfo(Name,DOB,Home_Address)
+	values('ibrahim','10-Nov-1978','flat no 2 ABC xt road')
+
+- when update & delete operation always provide where clause else it will updated all value.
+
+	update EmployeeInfo set Name = 'Harry Joseph'
+	where Employee_ID=2
+_______________________________________________________________________________________________________________________________________________________________________
+Distinct
+
+- for distinct value use distict keyword before field name
+	select distinct dob from EmployeeInfo
+
+Aggregation
+count - select name,count(*) from EmployeeInfo group by Name ( for all count rows not use group by )
+
+sum - 	below query gives sum by currencykey
+	select sum(unitprice),currencykey from FactInternetSales
+	group by currencykey
+
+join
+	select G.city,c.emailaddress,g.PostalCode from DimGeography as g left join DimCustomer as c
+	on c.GeographyKey=g.GeographyKey
+	where g.City like 'a%'and g.PostalCode>'2000'
+_______________________________________________________________________________________________________________________________________________________________________
+
+join 
+	select G.city,c.emailaddress,c.GeographyKey,g.GeographyKey from DimCustomer as c inner join DimGeography as g
+	on c.GeographyKey=g.GeographyKey
+
+Upper & Lower
+ 
+	select Upper(FirstName) from DimCustomer
+Substring use for extracting text from values. i e first 2 or last 2 its same as left function
+
+	select SUBSTRING(firstname,1,2) from DimCustomer
+
+TOP clause 
+
+	select top 3 * from DimCustomer order by CustomerKey desc
+_______________________________________________________________________________________________________________________________________________________________________
+
+* SELECT - extracts data from a database
+* UPDATE - updates data in a database
+* DELETE - deletes data from a database
+* INSERT INTO - inserts new data into a database
+* CREATE DATABASE - creates a new database
+* ALTER DATABASE - modifies a database
+* CREATE TABLE - creates a new table
+* ALTER TABLE - modifies a table
+* DROP TABLE - deletes a table
+* CREATE INDEX - creates an index (search key)
+* DROP INDEX - deletes an index
+_______________________________________________________________________________________________________________________________________________________________________
+
+For count Database - access 
+SELECT COUNT(DISTINCT Country) FROM Customers;
+If above not work then
+SELECT Count(*) AS DistinctCountries
+FROM (SELECT DISTINCT Country FROM Customers);
+Where 
+The WHERE clause is not only used in SELECT statement, it is also used in UPDATE, DELETE statement, etc.!
+_______________________________________________________________________________________________________________________________________________________________________
+
+Type text vs numeric
+SQL requires single quotes around text values (most database systems will also allow double quotes).
+
+For NOT condition
+SELECT column1, column2, ...
+FROM table_name
+WHERE NOT condition;
+
+
+Use parenthesis for complex condition
+SELECT * FROM Customers
+WHERE Country='Germany' AND (City='Berlin' OR City='München');
+_______________________________________________________________________________________________________________________________________________________________________
+
+Order by
+The following SQL statement selects all customers from the "Customers" table, sorted by the "Country" and the "CustomerName" column. This means that it orders by Country, but if some rows have the same Country, it orders them by CustomerName:
+SELECT * FROM Customers
+ORDER BY Country, CustomerName;
+ 
+Insert into statement 
+This statement use for insert records in table
+You can also specified column and insert,if we want to insert value in all fields then dont specified column but value require in same order.
+
+Null value
+A NULL value is different from a zero value or a field that contains spaces. A field with a NULL value is one that has been left blank during record creation!
+Always use IS NULL to look for NULL values.
+_______________________________________________________________________________________________________________________________________________________________________
+
+For top value use Top on sql and limit  in mysql
+
+Like operator
+ MS Access uses an asterisk (*) instead of the percent sign (%), and a question mark (?) instead of the underscore (_).
+
+Backup Database
+- Always back up the database to a different drive than the actual database. Then, if you get a disk crash, you will not lose your backup file along with the database.
+- A differential back up reduces the back up time (since only the changes are backed up).
+BACKUP DATABASE testDB
+TO DISK = 'D:\backups\testDB.bak'
+WITH DIFFERENTIAL;
+_______________________________________________________________________________________________________________________________________________________________________
+create table
+
+using basic create table method & gives static values or using subqery
+table creation base on another table (select * into TstTable from grades1)
+
+Alert table in SQL Server / MS Access:
+ALTER TABLE table_name
+ALTER COLUMN column_name datatype;
+
+in My SQL / Oracle (prior version 10G):
+ALTER TABLE table_name
+MODIFY COLUMN column_name datatype;
+_______________________________________________________________________________________________________________________________________________________________________
+SQL Constraints
+
+- Constraints can be specified when the table is created with the CREATE TABLE statement, or after the table is created with the ALTER TABLE statement.
+- This ensures the accuracy and reliability of the data in the table
+
+NOT NULL - Ensures that a column cannot have a NULL value
+UNIQUE - Ensures that all values in a column are different
+PRIMARY KEY - A combination of a NOT NULL and UNIQUE. Uniquely identifies each row in a table
+FOREIGN KEY - Uniquely identifies a row/record in another table
+CHECK - Ensures that all values in a column satisfies a specific condition
+DEFAULT - Sets a default value for a column when no value is specified
+INDEX - Used to create and retrieve data from the database very quickly
+
+To allow naming of a PRIMARY KEY constraint, and for defining a PRIMARY KEY constraint on multiple columns, use the following SQL syntax:
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    CONSTRAINT PK_Person PRIMARY KEY (ID,LastName)
+);
+Note: In the example above there is only ONE PRIMARY KEY (PK_Person). However, the VALUE of the primary key is made up of TWO COLUMNS (ID + LastName).
+_______________________________________________________________________________________________________________________________________________________________________
+Store procedure ( group of statements)
+
+- set of SQL queries can be reused over and over again
+- it is used only in database's data dictionary
+- maintainability
+- When using T-SQL programs, two methods are available for storing and executing the programs. You can store the programs locally and create applications that send the commands to SQL Server and process the results; or, you can store the programs as stored procedures in SQL Server and create applications that execute the stored procedures and process the results.
+
+The benefits of using stored procedures in SQL Server rather than application code stored locally on client computers include:
+
+They allow modular programming.
+They allow faster execution.
+They can reduce network traffic.
+They can be used as a security mechanism.
+
+basic Syntax
+
+USE Databasename
+GO  --begins a new batch
+
+CREATE PROC spFlimList
+AS
+BEGIN
+SELECT * FROM tblFilm
+END
+
+commit (execute) above sp and refresh database folder.
+stored procedure stored at database name folder -> programmability folder -> Stored Procedures folder
+
+Executing stored procedure
+
+1.Basic same sp query window
+ highlight name of SP and click on execute button
+
+2. new query window 
+EXECUTE spFlimList
+
+Modifying stored procedure
+ALTER PROC spFlimList
+or right click on sp and modify
+
+Deleting Stored Procedure
+DROP PROC spFlimList
+or right click on sp and remove
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Stored Procedure Parameters
+
+1. Adding parameter and Using parameter in WHERE clause
+
+CREATE PROC spFlimListCriteria
+	(
+		@MinLength AS INT,
+		@MaxLength AS INT,
+		@Title AS VARCHAR(MAX)
+	)
+AS
+BEGIN
+	SELECT FlimName,
+		FilmRunTimeMinutes
+	FROM 
+		tblFilm
+	WHERE 
+		FilmRunTimeMinutes >= @MinLength  AND
+		FilmRunTimeMinutes <= @MaxLength AND
+		FlimName LIKE '%' + @Title + '%'
+	ORDER BY
+		FilmRunTimeMinutes ASC	`	
+END
+
+Executing SP with parameter
+
+EXEC spFlimListCriteria 150,180,'star'
+using named parameters 
+EXEC spFlimListCriteria @MinLength=150,@MaxLength=180,@Title='star'
+
+2. Creating Optional Parameters and assigning default values
+
+CREATE PROC spFlimListCriteria
+	(
+		@MinLength AS INT = 0,
+		@MaxLength AS INT,
+	)
+EXEC spFlimListCriteria @MinLength=150,@MaxLength=180 -- to override default values
+or EXEC spFlimListCriteria @MaxLength=180
+
+3. Assigning NULL values
+need to change in where clause
+
+CREATE PROC spFlimListCriteria
+	(
+		@MinLength AS INT = NULL,
+		@MaxLength AS INT = NULL,
+		@Title AS VARCHAR(MAX)
+	)
+AS
+BEGIN
+	SELECT FlimName,
+		FilmRunTimeMinutes
+	FROM 
+		tblFilm
+	WHERE 
+		(@MinLength IS NULL OR FilmRunTimeMinutes >= @MinLength)  AND
+		(@MaxLength is NULL OR FilmRunTimeMinutes <= @MaxLength) AND
+		FlimName LIKE '%' + @Title + '%'
+	ORDER BY
+		FilmRunTimeMinutes ASC	`	
+END
+
+EXEC spFlimListCriteria @Title='star'
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Using Variable
+
+Declaring variable
+DECLARE @MyDate DATETIME
+
+Assigning value to variable
+SET @MyDate = '1970-01-01'
+
+referring variable in query
+where FlimReleaseDate >= @MyDate
+
+Storing query result in varibale
+DECLARE @NumFilms INT
+SET @NumFilms = (SELECT COUNT(*) FROM tblFilm WHERE FilmReleaseDate >= @MyDate)
+
+Selecting value in variable
+SELECT 'Number of Films', @NumFilms
+
+Printing value in variable
+PRINT @NumFilms
+you will not get extra set of query result however you will get above print result in message tab along with other query 'rows affected' result
+
+PRINT 'Number of films = ' + CAST(@NumFilms AS VARCHAR(MAX))
+data type should be same to get result in message tab. so we convert numerical variable into string
+
+we can disable 'rows affected' result from message tab
+SET NOCOUNT ON
+
+Reading record into set of variable
+
+DECLARE @ID INT
+DECLARE @Name VARCHAR(MAX)
+DECLARE @Date DATETIME
+
+SELECT TOP 1
+	@ID = ActorID,
+	@Name = ActorName,
+	@Date = ActorDOB
+FROM
+	tblActor
+WHERE
+	ActorDOB >= '1970-01-01'
+ORDER BY
+	ActorDOB AS
+
+once execute above query not get result. we need to use below
+
+SELECT @Name, @Date
+
+Accumulating values into variable
+DECLARE @NameList VARCHAR(MAX)
+SET @NameList = ''
+
+SELECT
+	@NameList = @NameList + ActorName + CHAR(10)
+FROM
+	tblActor
+WHERE
+	YEAR(ActorDOB) = 1970
+
+PRINT @NameList
+
+Global Variables
+Built-in global variables
+SELECT @@SERVERNAME, @@VERSION, @@ROWCOUNT
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Output Parameters and Return Values
+
+Declaring and Setting value in Output paramter
+
+USE Movies
+GO
+
+CREATE PROC spFlimYear
+	(
+		@Year INT,
+		@FilmList VARCHAR(MAX) OUTPUT,
+		@FlimCount INT OUTPUT
+	
+	)
+AS
+BEGIN
+	DECLARE @Flims VARCHAR(MAX)
+	SELECT
+		@Flims = @Flims + FlimName + ','
+	FROM
+		tblFilm
+	WHERE
+		YEAR(FilmReleaseDate) = @Year
+	ORDER BY
+		FlimName ASC
+	SET @FlimCount = @@ROWCOUNT
+	SET @FlimList = @Flims
+END
+
+Getting Result of Output Parameter
+
+DECLARE @Names VARCHAR(MAX)
+DECLARE @Count INT
+
+EXEC spFlimYear 
+	@Year=2000,
+	@FlimList = @Names OUTPUT,
+	@FlimCount = @Count OUTPUT
+	
+SELECT @Count AS [Number of Flims], @Names AS [List of Films]
+
+Output Parameters vs Return Values
+ 
+Return values is another and simple way to get result of output parameter but this method has two limitation 
+1. only return single out value. other method return mutiple out parameters
+2. datatype of return value must be interger
+
+Adding Return Value to Procedure
+
+CREATE PROC spFlimYear
+	(
+		@Year INT,
+	
+	)
+AS
+BEGIN
+	DECLARE @Flims VARCHAR(MAX)
+	SELECT
+		@Flims = @Flims + FlimName + ','
+	FROM
+		tblFilm
+	WHERE
+		YEAR(FilmReleaseDate) = @Year
+	ORDER BY
+		FlimName ASC
+	RETURN  @@ROWCOUNT
+		
+END
+
+Reading Return Result
+DECLARE @Count INT
+
+EXEC @Count = spFlimYear @Year=2000
+SELECT @Count As [Number of Flims]
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF Statements
+
+DECLARE @NumFlims INT
+
+SET @NumFlims = (SELECT COUNT(*) FROM tblFlim WHERE FlimGenereID = 3)
+
+IF @NumFlims > 5
+	BEGIN
+		PRINT 'WARNING!!!'
+		PRINT 'There are too many romantic flims in database'
+		IF @ActionFilms > 10
+			BEGIN
+				PRINT 'Phew! There are enough action flims to make up for it'
+			END
+		ELSE
+			BEGIN
+				PRINT 'There are not enough action film either'
+			END
+	END
+ELSE
+	BEGIN
+		PRINT 'INFORMATION'
+		PRINT 'There are no more than five romantic films'
+	END
+
+Using Begin and End block
+if you want to perform more than one actions at True part or False part then we need to use those in Begin and End block. see in above ex.
+
+Use IF in SELECT statement or stored procedure
+
+CREATE PROC spVariableData
+	(
+		@InfoType VARCHAR(9)	-- this can be ALL, AWARD or FINANCIAL
+	)
+AS
+BEGIN
+	IF @InfoType = 'ALL'
+		BEGIN
+			(SELECT * FROM tblFlim)
+			RETURN
+		END
+	IF @InfoType = 'AWARD'
+		BEGIN
+			(SELECT award FROM tblFlim)
+			RETURN
+		END
+	IF @InfoType = 'FINANCIAL'
+		BEGIN
+			(SELECT financial FROM tblFlim)
+			RETURN
+		END
+
+	SELECT 'You must choose ALL, AWARD or FINANCIAL'
+END
+
+EXEC spVariableData @InfoType = 'ALL'
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+While Loop
+
+basic syntax only type of loop in SQL
+DECLARE @Counter INT
+DECLARE @MaxOscars INT
+DECLARE @NumFlims INT
+
+SET @Counter = 1
+SET @MaxOscars = (SELECT MAX(FlimOscarWins) FROM tblFlim)
+
+WHILE @Counter <= @MaxOscars
+	BEGIN
+		SET @NumFlims = (SELECT COUNT(*) FROM tblFlim WHERE FlimOscarWins = @Counter)
+
+		IF @NumFlims = 0 BREAK  -- stop the loop when condition statisfied
+
+		PRINT CAST(@NumFlims AS VARCHAR(3)) + 'films have won' + CAST(@Counter AS VARCHAR(2)) + 'Oscars'
+
+		SET @Counter = @Counter + 1
+	END
+
+Using Loop with Cursors
+cursors is pointer or virtual temp memory that store and execute database rows one at a time.
+
+DECLARE @FlimID INT
+DECLARE @FlimName VARCHAR(MAX)
+
+DECLARE FlimCursor  CURSOR FOR
+	SELECT FlimID, FlimName FROM tblFlim
+
+OPEN FlimCursor
+
+FETCH NEXT FROM FlimCursor INTO @FlimID, @FlimName
+
+While @@FETCH_STATUS = 0
+	BEGIN
+		PRINT 'Characters in the file' + @FlimName
+		SELECT CastCharacterName FROM tblCast WHERE CastID =@FlimID
+
+		FETCH NEXT FROM FlimCursor INTO @FlimID, @FlimName
+	END
+
+CLOSE FlimCursor
+DEALLOCATE FlimCursor
+
+_______________________________________________________________________________________________________________________________________________________________________
+Creation of index
+
+CREATE INDEX index_name
+ON table_name (column1, column2, ...);
+
+Auto increament
+
+- MySQL & MS ACCESS uses the AUTO_INCREMENT keyword to perform an auto-increment feature. AUTOINCREMENT(10,5).
+- The MS SQL Server uses the IDENTITY keyword to perform an auto-increment feature.IDENTITY(1,1)- start 1 & increament by 1
+- we can also crate sequence in databse and use same by function (sequence name).nextval for oracle & NEXT VALUE FOR sequence name ( MS SQL)
+
+CREATE SEQUENCE seq_person
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1
+CACHE 10;- (The cache option specifies how many sequence values will be stored in memory for faster access.)
+
+for show properties of sequences 
+SELECT *
+FROM sys.sequences
+WHERE name = 'myseq';
+
+_______________________________________________________________________________________________________________________________________________________________________
+SQL Working With Dates
+
+SQL Date Data Types
+MySQL comes with the following data types for storing a date or a date/time value in the database:
+
+DATE - format YYYY-MM-DD
+DATETIME - format: YYYY-MM-DD HH:MI:SS
+TIMESTAMP - format: YYYY-MM-DD HH:MI:SS
+YEAR - format YYYY or YY
+SQL Server comes with the following data types for storing a date or a date/time value in the database:
+
+DATE - format YYYY-MM-DD
+DATETIME - format: YYYY-MM-DD HH:MI:SS
+SMALLDATETIME - format: YYYY-MM-DD HH:MI:SS
+TIMESTAMP - format: a unique number
+Note: The date types are chosen for a column when you create a new table in your database!
+
+- if we want data for specific date then we have to mention date in where clause but if data type is date/time then no results found,it will only look for date
+- To keep your queries simple and easy to maintain, do not allow time components in your dates!
+_______________________________________________________________________________________________________________________________________________________________________
+SQL Views
+
+- In SQL, a view is a virtual table based on the result-set of an SQL statement. its contains row and column just like real tables.
+- A view always shows up-to-date data! The database engine recreates the data, using the view's SQL statement, every time a user queries a view.
+
+CREATE VIEW view_name AS
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+
+- if we want to do any changes in view then use CREATE OR REPLACE VIEW
+_______________________________________________________________________________________________________________________________________________________________________
+SQL Injection
+
+SQL injection is a code injection technique that might destroy your database.
+SQL injection is one of the most common web hacking techniques.
+SQL injection is the placement of malicious code in SQL statements, via web page input.
+
+SQL in Web Pages
+SQL injection usually occurs when you ask a user for input, like their username/userid, and instead of a name/id, the user gives you an SQL statement that you will unknowingly run on your database.
+
+SQL Injection Based on ""="" is Always True
+_______________________________________________________________________________________________________________________________________________________________________
+
+Stored Procedure
+
+- set of SQL queries can be reused over and over again
+- it is used only in database's data dictionary
+- maintainability
+- When using T-SQL programs, two methods are available for storing and executing the programs. You can store the programs locally and create applications that send the commands to SQL Server and process the results; or, you can store the programs as stored procedures in SQL Server and create applications that execute the stored procedures and process the results.
+
+The benefits of using stored procedures in SQL Server rather than application code stored locally on client computers include:
+
+They allow modular programming.
+They allow faster execution.
+They can reduce network traffic.
+They can be used as a security mechanism.
+
+basic Syntax
+
+USE Databasename
+GO  --begins a new batch
+
+CREATE PROC spFlimList
+AS
+BEGIN
+SELECT * FROM tblFilm
+END
+
+commit (execute) above sp and refresh database folder.
+stored procedure stored at database name folder -> programmability folder -> Stored Procedures folder
+
+Executing stored procedure
+
+1.Basic same sp query window
+ highlight name of SP and click on execute button
+
+2. new query window 
+EXECUTE spFlimList
+
+Modifying stored procedure
+ALTER PROC spFlimList
+or right click on sp and modify
+
+Deleting Stored Procedure
+DROP PROC spFlimList
+or right click on sp and remove
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Stored Procedure Parameters
+
+1. Adding parameter and Using parameter in WHERE clause
+
+CREATE PROC spFlimListCriteria
+	(
+		@MinLength AS INT,
+		@MaxLength AS INT,
+		@Title AS VARCHAR(MAX)
+	)
+AS
+BEGIN
+	SELECT FlimName,
+		FilmRunTimeMinutes
+	FROM 
+		tblFilm
+	WHERE 
+		FilmRunTimeMinutes >= @MinLength  AND
+		FilmRunTimeMinutes <= @MaxLength AND
+		FlimName LIKE '%' + @Title + '%'
+	ORDER BY
+		FilmRunTimeMinutes ASC	`	
+END
+
+Executing SP with parameter
+
+EXEC spFlimListCriteria 150,180,'star'
+using named parameters 
+EXEC spFlimListCriteria @MinLength=150,@MaxLength=180,@Title='star'
+
+2. Creating Optional Parameters and assigning default values
+
+CREATE PROC spFlimListCriteria
+	(
+		@MinLength AS INT = 0,
+		@MaxLength AS INT,
+	)
+EXEC spFlimListCriteria @MinLength=150,@MaxLength=180 -- to override default values
+or EXEC spFlimListCriteria @MaxLength=180
+
+3. Assigning NULL values
+need to change in where clause
+
+CREATE PROC spFlimListCriteria
+	(
+		@MinLength AS INT = NULL,
+		@MaxLength AS INT = NULL,
+		@Title AS VARCHAR(MAX)
+	)
+AS
+BEGIN
+	SELECT FlimName,
+		FilmRunTimeMinutes
+	FROM 
+		tblFilm
+	WHERE 
+		(@MinLength IS NULL OR FilmRunTimeMinutes >= @MinLength)  AND
+		(@MaxLength is NULL OR FilmRunTimeMinutes <= @MaxLength) AND
+		FlimName LIKE '%' + @Title + '%'
+	ORDER BY
+		FilmRunTimeMinutes ASC	`	
+END
+
+EXEC spFlimListCriteria @Title='star'
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Using Variable
+
+Declaring variable
+DECLARE @MyDate DATETIME
+
+Assigning value to variable
+SET @MyDate = '1970-01-01'
+
+referring variable in query
+where FlimReleaseDate >= @MyDate
+
+Storing query result in varibale
+DECLARE @NumFilms INT
+SET @NumFilms = (SELECT COUNT(*) FROM tblFilm WHERE FilmReleaseDate >= @MyDate)
+
+Selecting value in variable
+SELECT 'Number of Films', @NumFilms
+
+Printing value in variable
+PRINT @NumFilms
+you will not get extra set of query result however you will get above print result in message tab along with other query 'rows affected' result
+
+PRINT 'Number of films = ' + CAST(@NumFilms AS VARCHAR(MAX))
+data type should be same to get result in message tab. so we convert numerical variable into string
+
+we can disable 'rows affected' result from message tab
+SET NOCOUNT ON
+
+Reading record into set of variable
+
+DECLARE @ID INT
+DECLARE @Name VARCHAR(MAX)
+DECLARE @Date DATETIME
+
+SELECT TOP 1
+	@ID = ActorID,
+	@Name = ActorName,
+	@Date = ActorDOB
+FROM
+	tblActor
+WHERE
+	ActorDOB >= '1970-01-01'
+ORDER BY
+	ActorDOB AS
+
+once execute above query not get result. we need to use below
+
+SELECT @Name, @Date
+
+Accumulating values into variable
+DECLARE @NameList VARCHAR(MAX)
+SET @NameList = ''
+
+SELECT
+	@NameList = @NameList + ActorName + CHAR(10)
+FROM
+	tblActor
+WHERE
+	YEAR(ActorDOB) = 1970
+
+PRINT @NameList
+
+Global Variables
+Built-in global variables
+SELECT @@SERVERNAME, @@VERSION, @@ROWCOUNT
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Output Parameters and Return Values
+
+Declaring and Setting value in Output paramter
+
+USE Movies
+GO
+
+CREATE PROC spFlimYear
+	(
+		@Year INT,
+		@FilmList VARCHAR(MAX) OUTPUT,
+		@FlimCount INT OUTPUT
+	
+	)
+AS
+BEGIN
+	DECLARE @Flims VARCHAR(MAX)
+	SELECT
+		@Flims = @Flims + FlimName + ','
+	FROM
+		tblFilm
+	WHERE
+		YEAR(FilmReleaseDate) = @Year
+	ORDER BY
+		FlimName ASC
+	SET @FlimCount = @@ROWCOUNT
+	SET @FlimList = @Flims
+END
+
+Getting Result of Output Parameter
+
+DECLARE @Names VARCHAR(MAX)
+DECLARE @Count INT
+
+EXEC spFlimYear 
+	@Year=2000,
+	@FlimList = @Names OUTPUT,
+	@FlimCount = @Count OUTPUT
+	
+SELECT @Count AS [Number of Flims], @Names AS [List of Films]
+
+Output Parameters vs Return Values
+ 
+Return values is another and simple way to get result of output parameter but this method has two limitation 
+1. only return single out value. other method return mutiple out parameters
+2. datatype of return value must be interger
+
+Adding Return Value to Procedure
+
+CREATE PROC spFlimYear
+	(
+		@Year INT,
+	
+	)
+AS
+BEGIN
+	DECLARE @Flims VARCHAR(MAX)
+	SELECT
+		@Flims = @Flims + FlimName + ','
+	FROM
+		tblFilm
+	WHERE
+		YEAR(FilmReleaseDate) = @Year
+	ORDER BY
+		FlimName ASC
+	RETURN  @@ROWCOUNT
+		
+END
+
+Reading Return Result
+DECLARE @Count INT
+
+EXEC @Count = spFlimYear @Year=2000
+SELECT @Count As [Number of Flims]
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+IF Statements
+
+DECLARE @NumFlims INT
+
+SET @NumFlims = (SELECT COUNT(*) FROM tblFlim WHERE FlimGenereID = 3)
+
+IF @NumFlims > 5
+	BEGIN
+		PRINT 'WARNING!!!'
+		PRINT 'There are too many romantic flims in database'
+		IF @ActionFilms > 10
+			BEGIN
+				PRINT 'Phew! There are enough action flims to make up for it'
+			END
+		ELSE
+			BEGIN
+				PRINT 'There are not enough action film either'
+			END
+	END
+ELSE
+	BEGIN
+		PRINT 'INFORMATION'
+		PRINT 'There are no more than five romantic films'
+	END
+
+Using Begin and End block
+if you want to perform more than one actions at True part or False part then we need to use those in Begin and End block. see in above ex.
+
+Use IF in SELECT statement or stored procedure
+
+CREATE PROC spVariableData
+	(
+		@InfoType VARCHAR(9)	-- this can be ALL, AWARD or FINANCIAL
+	)
+AS
+BEGIN
+	IF @InfoType = 'ALL'
+		BEGIN
+			(SELECT * FROM tblFlim)
+			RETURN
+		END
+	IF @InfoType = 'AWARD'
+		BEGIN
+			(SELECT award FROM tblFlim)
+			RETURN
+		END
+	IF @InfoType = 'FINANCIAL'
+		BEGIN
+			(SELECT financial FROM tblFlim)
+			RETURN
+		END
+
+	SELECT 'You must choose ALL, AWARD or FINANCIAL'
+END
+
+EXEC spVariableData @InfoType = 'ALL'
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+While Loop
+
+basic syntax only type of loop in SQL
+DECLARE @Counter INT
+DECLARE @MaxOscars INT
+DECLARE @NumFlims INT
+
+SET @Counter = 1
+SET @MaxOscars = (SELECT MAX(FlimOscarWins) FROM tblFlim)
+
+WHILE @Counter <= @MaxOscars
+	BEGIN
+		SET @NumFlims = (SELECT COUNT(*) FROM tblFlim WHERE FlimOscarWins = @Counter)
+
+		IF @NumFlims = 0 BREAK  -- stop the loop when condition statisfied
+
+		PRINT CAST(@NumFlims AS VARCHAR(3)) + 'films have won' + CAST(@Counter AS VARCHAR(2)) + 'Oscars'
+
+		SET @Counter = @Counter + 1
+	END
+
+Using Loop with Cursors
+cursors is pointer or virtual temp memory that store and execute database rows one at a time.
+
+DECLARE @FlimID INT
+DECLARE @FlimName VARCHAR(MAX)
+
+DECLARE FlimCursor  CURSOR FOR
+	SELECT FlimID, FlimName FROM tblFlim
+
+OPEN FlimCursor
+
+FETCH NEXT FROM FlimCursor INTO @FlimID, @FlimName
+
+While @@FETCH_STATUS = 0
+	BEGIN
+		PRINT 'Characters in the file' + @FlimName
+		SELECT CastCharacterName FROM tblCast WHERE CastID =@FlimID
+
+		FETCH NEXT FROM FlimCursor INTO @FlimID, @FlimName
+	END
+
+CLOSE FlimCursor
+DEALLOCATE FlimCursor
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+User Defined Functions
+
+1. using template from already created functions from path (your database->Programmability->Functions-> Table valued functions-> Scalar valued functions (custom function parameter not shows return value in folder)
+2. create new functions
+
+USE Movies
+GO
+
+--Defining functions
+CREATE FUNCTION fnLongDate
+	(
+		@FullDate AS DATETIME
+	)
+
+RETURNS VARCHAR(MAX)
+AS
+BEGIN
+	RETURN DATETIME(DW,@FullDate) + ' ' + DATENAME(D,@FullDate) + ' ' +
+		DATETIME(M, @FullDate) + ' ' + DATETIME(YY, @FullDate)
+END
+
+checking and testing function
+SELECT 
+	FilmName,
+	FlimReleaseDate,
+	[dbo].[fnLongDate](FlimReleaseDate)
+FROM
+	tblFlim
+
+Modifying Function
+
+ALTER FUNCTION fnLongDate
+
+FOR EXTRACTING FIRST NAME FROM TEXT
+
+USE
+Movies
+GO
+
+CREATE FUNCTION fnFIRSTNAME
+(
+	@FULLNAME VARCHAR(MAX)
+)
+RETURNS VARCHAR(MAX)
+AS
+BEGIN
+	DECLARE @SPACEPOSITION INT
+	DECLARE @ANSWER VARCHAR(MAX)
+
+	SET @SPACEPOSITION = CHARINDEX(' ',@FULLNAME)
+
+	IF @SPACEPOSITION = 0
+		SET @ANSWER = @FULLNAME
+	ELSE
+		SET @ANSWER = LEFT(@FULLNAME,@SPACEPOSITION-1)
+	RETURN @ANSWER
+
+END
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Temporary Tables
+
+- In SQL, most common used in intermediate stages for long sequence operarions
+
+Method 1
+SELECT	
+	FlimName,
+	FlimReleaseDate
+INTO	#TempFlims
+FROM
+	tblFlim
+WHERE
+	FlimName LIKE '%star%'
+
+SELECT * FROM #TempFlims
+
+Method2
+
+CREATE TABLE #TempFlims
+(
+	Title VARCHAR(MAX),
+	ReleaseDate DATETIME
+)
+INSERT INTO #TempFlims
+SELECT	
+	FlimName,
+	FlimReleaseDate
+INTO	#TempFlims
+FROM
+	tblFlim
+WHERE
+	FlimName LIKE '%star%'
+
+SELECT * FROM #TempFlims
+
+temporary table stored in System Databases -> tempdb -> Tables->Temporary Tables
+- We can also create same name tem table because its give unique code to tables.
+
+Global Temp table
+
+##TempFlims - Global Table - doesn't have unique identifier like local in name
+# TempFlims - Local table - unique identifier to every table
+
+Life span of Temp Table
+it is available till connection is active, it will deleted after connection closed (query page)
+
+Explicitly Deleting Temporary Tables
+DROP TABLE #TempFlims
+
+Temporary Tables and Stored Procedure
+
+CREATE PROC spInsertIntoTemp(@Text AS VARCHAR(MAX))
+AS
+BEGIN
+	INSERT INTO #TempFlims
+	SELECT
+		FlimName,
+		FlimReleaseDate
+	FROM
+		tblFlim
+	WHERE
+		FlimName LIKE '%' + @Text + '%'
+END
+
+CREATE PROC spSelectFromTemp
+AS
+BEGIN
+	SELECT *
+	FROM #TempFlims
+	ORDER BY
+		Release DESC
+END
+
+CREATE TABLE #TempFlims
+(
+	Title VARCHAR(MAX),
+	ReleaseDate DATETIME
+)
+
+EXEC spInsertIntoTemp 'star'
+EXEC spSelectFromTemp
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Alternative to Temp tables is Table Variable
+Table Variable
+
+
+USE Movies
+
+DECLARE @TempPeople TABLE
+(
+	PersonName VARCHAR(MAX)
+	PersonDOB DATETIME
+)
+
+INSERT INTO @TempPeople
+SELECT ActorName,
+	ActorDOB
+FROM
+	tblActor
+WHERE
+	ActorDOB < '1950-01-01'
+
+SELECT * FROM @TempPeople
+
+diff between temp table and table variable
+- table variable created, drop automatically. no need to worry about table is already exists or not whereas in temp table, if you want to change code then you need drop that first or close the connection
+
+Table variables have the following advantages over temporary tables:
+1. As mentioned in the SQL Server Books Online "Tables" article, table variables, such as local variables, have a well defined scope at the end of which they are automatically cleared.
+2. Table variables result in fewer recompilations of a stored procedure as compared to temporary tables.
+3. Transactions that involve table variables last only for the duration of an update on the table variable. Therefore, table variables require less locking and logging resources. Because table variables have limited scope and are not part of the persistent database, transaction rollbacks do not affect them.
+
+Disadvantage of table variable
+- variable must be explicitely declare before inserting
+- Non-clustered indexes cannot be created on table variables, other than the system indexes that are created for a PRIMARY or UNIQUE constraint. That can influence the query performance when compared to a temporary table with non-clustered indexes.
+- Table variables do not maintain statistics like temporary tables can. Statistics cannot be created on table variables through automatic creation or by using the CREATE STATISTICS statement. Therefore, for complex queries on large tables, the lack of statistics may deter the optimizer to determine the best plan for a query, thus affecting the performance of that query.
+- The table definition cannot be changed after the initial DECLARE statement.
+- Tables variables cannot be used in a INSERT EXEC or SELECT INTO statement.
+- CHECK constraints, DEFAULT values, and computed columns in the table type declaration cannot call user-defined functions.
+- You cannot use the EXEC statement or the sp_executesql stored procedure to run a dynamic SQL Server query that refers a table variable, if the table variable was created outside the EXEC statement or the sp_executesql stored procedure. Because table variables can be referenced in their local scope only, an EXEC statement and a sp_executesql stored procedure would be outside the scope of the table variable. However, you can create the table variable and perform all processing inside the EXEC statement or the sp_executesql stored procedure because then the table variables local scope is in the EXEC statement or the sp_executesql stored procedure.
+- you cannot alter the structure of the table variables after they are declared.
+- if you are using a table variable with a join, you need to alias the table in order to execute the query.
+
+Q4: Are table variables memory-only structures that are assured better performance as compared to temporary or permanent tables, because they are maintained in a database that resides on the physical disk?
+
+A4: A table variable is not a memory-only structure. Because a table variable might hold more data than can fit in memory, it has to have a place on disk to store data. Table variables are created in the tempdb database similar to temporary tables. If memory is available, both table variables and temporary tables are created and processed while in memory (data cache).
+
+Q5: Do I have to use table variables instead of temporary tables?
+
+A5: The answer depends on these three factors:
+The number of rows that are inserted to the table.
+The number of recompilations the query is saved from.
+The type of queries and their dependency on indexes and statistics for performance.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Table Valued Functions
+
+- Its same as normal function but its doesnt support BEGIN---END block
+
+CREATE FUNCTION FlimsInYear
+(
+	@FlimYear INT
+)
+
+RETURNS TABLE
+AS
+RETURN
+	SELECT
+		FlimName,
+		FlimReleasDate,
+		FlimRunTimeMinutes
+	FROM
+		tblFlim
+	WHERE
+		Year(FlimReleaseDate) = @FlimYear
+
+locate created table valued function in db
+database name - > Programmability -> Functions -> Table Valued Functions
+
+Using TVF in query
+
+SELECT
+	FlimName,
+	FlimReleasDate,
+	FlimRunTimeMinutes
+FROM
+	[dbo].[FlimsInYear](2002)
+
+Modifying the function for mulitple year (value)
+ALTER FUNCTION FlimsInYear
+(
+@StartYear INT,
+@ENDYear INT
+)
+
+Multi Statement Table Value Functions
+- we need to create table variable 
+
+CREATE FUNCTION PeopleInYear
+(
+	@BirthYear INT
+)
+RETURNS @t TABLE
+(
+	PersonName VARCHAR(MAX),
+	PersonDOB DATETIME,
+	PersonJob VARCHAR(8)
+)
+AS
+BEGIN
+	INSERT INTO @t
+	SELECT
+		DirectorName,
+		DirectorDOB,
+		'Director'
+	FROM
+		tblDirector
+	WHERE
+		Year(DirectorDOB) = @BirthYear
+	
+	SELECT
+		ActorName,
+		ActorDOB,
+		'Actor'
+	FROM
+		tblActor
+	WHERE
+		Year(ActorDOB) = @BirthYear
+	RETURN
+END
+
+Exexuting above
+
+SELECT *
+FROM dbo.PeopleInYear(1945)
+
+finding and modifying MTVF
+database name - > Programmability -> Functions -> Table Valued Functions
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Common Table Expressions
+
+- create temporary set of records to use immediately in another select function
+- mutiple times use fields
+
+WITH EarlyFlims AS
+(
+	SELECT
+		FlimName,
+		FlimReleasDate,
+		FlimRunTimeMinutes
+	FROM
+		tblFlim
+	WHERE
+		Year(FlimReleaseDate) < 2000
+)
+
+SELECT *
+FROM EarlyFlims
+WHERE
+	FlimRunTimeMinutes > 120
+
+Calculating aggregates with CTEs and labelling columns in CTE
+
+WITH FlimCounts(Country, NumberOfFlims) AS
+(
+	SELECT 
+		FlimCountryID,
+		Count(*) AS [NumberOfFilms]
+	FROM 
+		tblflim
+	GROUP BY
+		FlimCountryID
+)
+SELECT AVG(NumberOfFilms)
+FROM FlimCounts
+
+Creating Multiple CTEs
+
+WITH EarlyFlims AS
+(
+	SELECT
+		CountryID,
+		FlimName,
+		FlimReleasDate,
+		FlimRunTimeMinutes
+	FROM
+		tblFlim
+	WHERE
+		Year(FlimReleaseDate) < 2000
+),
+RecentFlims AS
+(
+	SELECT
+		CountryID,
+		FlimName,
+		FlimReleasDate,
+		FlimRunTimeMinutes
+	FROM
+		tblFlim
+	WHERE
+		Year(FlimReleaseDate) >2000
+)
+
+SELECT *
+FROM
+	EarlyFlims as e
+INNER JOIN
+	RecentFlims as r
+ON 	e.CountyID = r.CountryID
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cursors
+
+- cursors is pointer or virtual temp memory that store and execute database rows one at a time.
+- execute stored procedure indiviual records
+
+
+Declaring a Cursor
+
+DECLARE FlimCursor CURSOR
+	FOR SELECT FlimID, FlimName,FlimReleaseDate FROM tblFlim
+
+OPEN FlimCursor
+	-- Do Something useful here
+	FETCH NEXT FROM FlimCursor
+
+	WHILE @@FETCH_STATUS = 0
+		FETCH NEXT FROM FlimCursor
+	
+
+CLOSE FlimCursor
+DEALLOCATE FlimCursor
+
+Other FETCH Options in Cursor
+
+Declaring a Cursor
+
+DECLARE FlimCursor CURSOR SCROLL
+	FOR SELECT FlimID, FlimName,FlimReleaseDate FROM tblFlim
+
+OPEN FlimCursor
+	-- Do Something useful here
+	FETCH FIRST/LAST FROM FlimCursor
+
+	WHILE @@FETCH_STATUS = 0
+		FETCH NEXT/PRIOR FROM FlimCursor
+CLOSE FlimCursor
+DEALLOCATE FlimCursor
+
+
+OPEN FlimCursor
+	-- Do Something useful here
+	FETCH ABSOULTE 10 FROM FlimCursor  -- from 10 records to step 10 records(relative) for reverse use -10
+
+	WHILE @@FETCH_STATUS = 0
+		FETCH RELATIVE 10 FROM FlimCursor
+
+Variables in cursor
+
+DECLARE @ID INT
+DECLARE @Name VARCHAR(MAX)
+DECLARE @Date DATETIME
+
+DECLARE FlimCursor CURSOR
+	FOR SELECT FlimID, FlimName,FlimReleaseDate FROM tblFlim
+
+OPEN FlimCursor
+	-- Do Something useful here
+	FETCH NEXT FROM FlimCursor
+		INTO @ID, @Name, @Date
+
+	WHILE @@FETCH_STATUS = 0
+		BEGIN
+			PRINT @Name + 'released on ' + CONVERT(CHAR(10),@Date,103)
+			PRINT '=============================================='
+			PRINT 'List of Characters'
+
+			SELECT
+				CastCharacterName
+			FROM
+				tblCast
+			WHERE
+				CastFlimID = @ID
+
+			FETCH NEXT FROM FlimCursor
+				INTO @ID, @Name, @Date
+		END
+
+CLOSE FlimCursor
+DEALLOCATE FlimCursor
+
+Calling Stored Procedure in Cursor
+put above from print code into store procedure and call store procedure in cursor
+
+WHILE @@FETCH_STATUS = 0
+		BEGIN
+			EXEC spListCharacters @ID, @Name, @Date
+
+			FETCH NEXT FROM FlimCursor
+				INTO @ID, @Name, @Date
+		END
+
+Setting Scope of Stored Procedure
+
+DECLARE FlimCursor CURSOR GLOBAL/LOCAL
+
+GLOBAL - referred anywhere within connection
+LOCAL - restricated within batch in which cursor is declared
+
+DECLARE FlimCursor CURSOR LOCAL
+	FOR SELECT FlimID, FlimName,FlimReleaseDate FROM tblFlim
+GO
+
+you can not use local cursor after GO
+you can change default cursor scope from database name properties -options
+
+SCROLL Setting for Cursor
+DECLARE FlimCursor CURSOR FORWARD ONLY
+so you cant use FETCH FIRST
+
+Record Type of Cursors
+4 types 
+DECLARE FlimCursor CURSOR STATIC/DYNAMIC/KEYSET/FAST_FORWARD
+
+Static - create copy of select statements results into temp database
+KEYSET - create copy of key value from select data into temp database
+Dynamic - changes any value 
+
+Record Locking Options for Cursors
+3 types
+DECLARE FlimCursor CURSOR READ_ONLY/SCROLL_LOCKS/OPTIMISTIC
+
+Combining Cursor Options
+DECLARE FlimCursor CURSOR GLOBAL FORWARD_ONLY STATIC READ_ONLY
+
+make sure not use contradict options combo like SCROLL FAST_FORWARD
+
+Declaring Cursors for Updating Records and running total calculate
+
+DECLARE @FlimOscars INT
+DECLARE @TotalOscars INT
+
+SET @TotalOscars = 0
+
+DECLARE FlimCursor CURSOR
+	FOR SELECT FlimOscarWins FROM tblFilm
+	FOR UPDATE OF FilmCumulativeOscars
+
+OPEN FilmCursor
+
+	FETCH NEXT FROM FlimCursor INTO @FlimOscars
+
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		SET @TotalOscars += @FlimOscars
+		UPDATE tblFilm
+		SET FilmCumulativeOscars =  @TotalOscars
+		WHERE CURRENT OF FilmCursor
+
+		FETCH NEXT FROM FlimCursor INTO @FlimOscars
+	END
+
+CLOSE FlimCursor
+DEALLOCATE FlimCursor
+
+update will add new or current  FilmCumulativeOscars column into tblFilm table
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+The Pivot Operator
+
+using pivot operator we have to give static value to ' IN '
+
+
+Selecting Base Data and create derived table
+
+SELECT * FROM
+
+	(SELECT CountryName,
+		FlimID
+	FROM
+		tblCountry AS c INNER JOIN
+		tblFilm AS f ON c.CountryID = f.FlimCountryID) AS BaseData
+PIVOT(
+	COUNT(FlimID) FOR CountryName IN ([China],[France], [Germany])
+) AS PivotTable
+
+Instead of writing all country values we can write select statment to get all country name with square bracket in another query window and paste it in pivot query.
+SELECT
+	',' + QUOTENAME(CountryName)
+FROM
+	Country
+
+Adding row groups to Pivot
+
+SELECT * FROM
+
+	(SELECT CountryName,
+		YEAR(FilmReleaseDate) AS [FilmYear],
+		FlimID
+	FROM
+		tblCountry AS c INNER JOIN
+		tblFilm AS f ON c.CountryID = f.FlimCountryID) AS BaseData
+PIVOT(
+	COUNT(FlimID) FOR CountryName IN ([China],[France], [Germany])
+) AS PivotTable
+
+Ordering Row and Columns
+end of all code add
+ORDER BY FlimYear DESC but to sort columns you need to write countryname as per desire sorting
+
+Adding more groups to pivot
+- by adding more level after year in base data
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Dynamic Pivot Tables
+
+for this we have store 'IN ' values in variable & whole sql statement in string
+
+DECLARE @ColumnNames NVARCHAR(MAX) = ' '
+DECLARE @SQL NVARCHAR(MAX)
+
+SELECT @ColumnNames += QUOTENAME(CountryName) + ','
+FROM tblCountry
+
+-- Removing trailing comma from list
+SET @ColumnNames = LEFT(@ColumnNames,LEN(@ColumnNames)-1)
+
+SET @SQL=
+'SELECT * FROM
+
+	(SELECT CountryName,
+		YEAR(FilmReleaseDate) AS [FilmYear],
+		FlimID
+	FROM
+		tblCountry AS c INNER JOIN
+		tblFilm AS f ON c.CountryID = f.FlimCountryID) AS BaseData
+PIVOT(
+	COUNT(FlimID) FOR CountryName IN (' + @ColumnNames + ')
+) AS PivotTable'
+
+-- Executing a Dynamic SQL Statement
+EXECUTE sp_executesql @SQL	-- sp_executesql is system built in defined stored procedure
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Dynamic SQL
+
+convert your SQL statements into variable or string and execute. Ex. EXEC 'SELECT * FROM tblFilm'
+writing N before string will treat it as unicode string. ex. N'SELECT * FROM tblFilm'
+
+EXEC 'SELECT * FROM tblFilm'
+@SQLString = 'SELECT * FROM tblFilm'
+EXECUTE sp_executesql @SQLString
+
+EXEC sp_exececutesql 
+	N'SELECT FilmName, FilmReleaseDate, FilmRunTimeMinutes FROM tblFilm
+		WHERE FilmRunTimeMinutes > @Length' AND FlimReleaseDate > @StartDate,
+		N'@Length INT', @StartDate DATETIME,
+		@Length = 120, @StartDate = '2000-01-01'
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Transactions
+
+- it occur when something change in database like adding new row, delete row etc
+- if any error happend between tran begin & end its automatically rollback to original data.
+
+BEGIN TRAN
+
+INSERT INTO tblFilm (FilmName, FilmReleaseDate)
+VALUES ('Iron Man 3', '2013-04-05')
+
+COMMIT
+
+Rolling back 
+
+BEGIN TRAN AddIronMan3
+
+INSERT INTO tblFilm (FilmName, FilmReleaseDate)
+VALUES ('Iron Man 3', '2013-04-05')
+
+SELECT * FROM tblFilm WHERE FilmName = 'Iron Man 3'
+
+ROLLBACK TRASACTION AddIronMan3
+
+SELECT * FROM tblFilm WHERE FilmName = 'Iron Man 3'
+
+first select statment gives Irom man 3 movie result but later show no records.
+
+conditionally commiting or rolling back using if else
+
+using error handling try and catch block
+
+BEGIN TRY
+	BEGIN TRAN
+
+	INSERT INTO tblFilm (FilmName, FilmReleaseDate)
+	VALUES ('Iron Man 3', '2013-04-05')
+
+	COMMIT TRAN
+END TRY
+BEGIN CATCH
+	ROLLBACK TRAN
+	PRINT 'Adding Iron Man failed - check data types'
+END CATCH
+
+SELECT * FROM tblFilm WHERE FilmName = 'Iron Man 3'
+
+Nested Transctions
+
+BEGIN TRAN Tran1
+	PRINT @@TRANCOUNT
+	BEGIN TRAN
+		PRINT @@TRANCOUNT
+	ROLLBACK TRAN
+	PRINT @@TRANCOUNT
+COMMIT TRAN Tran1
+
+above result
+1 - first trancount
+2 -  second trancount
+0 - not provide naming tran so everything will be rolled back
+failed - there is no transction left and no point of commiting
+
+Saving tran
+
+BEGIN TRAN Tran1
+	PRINT @@TRANCOUNT
+	SAVE TRAN Savepoint
+		PRINT @@TRANCOUNT
+	ROLLBACK TRAN Savepoint
+	PRINT @@TRANCOUNT
+COMMIT TRAN Tran1
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DML Trigger
+- special kind of sp you can attached various event happens in database
+DML -INSERT,UPDATE, DELETE , two type of trigger AFTER or INSTEAD OF IN DML TRIGGER
+can be AFTER or INSTEAD OF
+Attached to tables or view
+DDL
+LogOn
+
+Simple DML Trigger
+USE Movies
+GO
+
+CREATE TRIGGER trgActorsChanged
+ON tblActor
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+	PRINT 'Something happened to the Actor Table'
+END
+GO
+
+Alter and drop trigger
+
+DDL
+CREATE,ALTER and DROP
+Scoped to a Database or server
+
+simple DDL trigger 
+
+USE Movies
+GO
+
+CREATE TRIGGER trgNoNewTables
+ON DATABASE
+FOR CREATE TABLE
+AS
+BEGIN
+	PRINT 'No new Tables please'
+	ROLLBACK
+END
+
+DROP Trigger triggername ON DATABASE
+
+For changing trigger order use sp_settriggar order inbuilt store procedure
+
+INSTEAD OF trigger
+
+CREATE TRIGGER TRG_INSTEAD
+ON SALES_TABLENEW
+INSTEAD OF INSERT
+AS
+BEGIN
+	SET NOCOUNT ON
+	INSERT INTO SALES_TABLE(ORDERID)
+
+	SELECT I.ORDERNO FROM INSERTED I
+	WHERE I.ORDERNO NOT IN (SELECT ORDERID FROM SALES_TABLE)
+END
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SQL Server DDL triggers
+
+These events created by the Transact-SQL statement that normally starts with one of the following keywords CREATE, ALTER, DROP, GRANT, DENY, REVOKE, or UPDATE STATISTICS.
+
+CREATE TRIGGER trg_index_changes
+ON DATABASE
+FOR	
+    CREATE_INDEX,
+    ALTER_INDEX, 
+    DROP_INDEX
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO index_logs (
+        event_data,
+        changed_by
+    )
+    VALUES (
+        EVENTDATA(),
+        USER
+    );
+END;
+GO
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	FOR ALL TRIGGER, FUNCTION & STORE PROCEDURES
+
+SELECT DEFINITION FROM SYS.sql_modules
+
+	FOR SPECFIC OBJECT ID 
+
+SELECT DEFINITION FROM SYS.sql_modules
+WHERE object_id = OBJECT_ID('TRG_INSTEAD')
+
+	SQL Server List All Triggers
+
+SELECT * FROM SYS.triggers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,116 @@
+Dynamic Axis and ledgend on Slicer
+
+- duplicate query 
+- go to power query and unviot data in duplicate query which we want to show on visual and slicer
+- after load to model and maintain relationship with parent table
+- then create dax with crossflter option
+- use unviot value and dynamic dax on bar chart and attribute on slicers
+___________________________________________________________________________________________________________________________________________________________________________________________
+Adding last refresh date to dashboard
+
+- create new table with M query contains on one column and value that is current date
+ let
+Source = #table(type table[LastRefresh=datetime], {{DateTime.LocalNow()}})
+in
+Source
+- then use that filed on dashboard
+___________________________________________________________________________________________________________________________________________________________________________________________
+creating custom KPI
+
+- we have to create three measure KPI green , KPI red and Color KPI
+- add three visual pie chart for indicator green or red and bar chart to test color kpi
+- use color kpi for conditional formating of bars.
+
+KPI Red = IF([Total Revenue]<[TR lastyear],1,0)
+KPI Green = IF([Total Revenue]>[TR lastyear],1,0)
+Color KPI = 
+SWITCH(TRUE(),
+[Total Revenue]<[TR lastyear],"#ff0000",
+[Total Revenue]>[TR lastyear],"#009900","ffff00")
+___________________________________________________________________________________________________________________________________________________________________________________________
+Creating Dynamic Title
+
+Total Budget = 
+var selectedvalue = SELECTEDVALUE(Country[Country],"brazil")
+return
+CALCULATE(SUM(Film[BudgetDollars]),FILTER(Country,Country[Country]=selectedvalue))
+
+IfvalueBlank = COALESCE([Total Budget],
+    "The Selected Vale:-" & CONCATENATEX(VALUES(Country),Country[Country],",")&" dont have budget")
+___________________________________________________________________________________________________________________________________________________________________________________________
+Dynamic parameters
+
+- Development-testing-prod we have to create template with parameter of server instance and database name , because when any one open the file then first selection parameter window will be open
+___________________________________________________________________________________________________________________________________________________________________________________________
+Highlighting the minimum and maximum values in a Power BI matrix
+
+
+Highlight MIN MAX = 
+var SampleTable = CALCULATETABLE(SUMMARIZE(DimProduct,DimProduct[EnglishProductName],DimProduct[DimProductCategory.1.EnglishProductCategoryName],"List Price",[Total List price]),ALLSELECTED())
+var minvalue = MINX(SampleTable,[List Price])
+var maxvalue = MAXX(SampleTable,[List Price])
+var currentvalue = [Total List price]
+var result = SWITCH(TRUE(),currentvalue=minvalue,1,currentvalue=maxvalue,2)
+Return
+    result
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+Comparing column SPLY and currentyear for specific time period
+
+- if in CY month 5 days sales missing then use LASTNOTBLACK & find out correct period
+- if we want to normalized data basis on two selection in two different date slicer then calculate year sales to specific dates.
+___________________________________________________________________________________________________________________________________________________________________________________________
+Slicers filter bases on other slicer without Bidirectional filter
+
+- we have to use measure in slicer visual level filter ( NOT ISEMPTY ( SalesAmoun))
+
+OR condition betwen two slicer
+
+OR = CALCULATE(SUM(FactInternetSales[UnitPrice]),
+FILTER(
+    CALCULATETABLE(SUMMARIZE(FactInternetSales,DimProduct[EnglishProductName],DimCustomer[EnglishOccupation]),
+            ALL(DimProduct[EnglishProductName]),ALL(DimCustomer[EnglishOccupation]))
+,   OR(DimProduct[EnglishProductName] IN VALUES(DimProduct[EnglishProductName]),
+            DimCustomer[EnglishOccupation] IN VALUES(DimCustomer[EnglishOccupation]))))
+
+AND condition in same slicer for multiple selection
+
+Count = Var numselectedcat = COUNTROWS(VALUES(DimProduct[EnglishProductCategoryName]))
+Var customerwithcat =SUMMARIZE(FactInternetSales,DimCustomer[CustomerKey],DimProduct[EnglishProductCategoryName])
+var customerwithnumcat = GROUPBY(customerwithcat,DimCustomer[CustomerKey],"CountCAT",countx(CURRENTGROUP(),1))
+var customerwithallcat = FILTER(customerwithnumcat,[CountCAT]=numselectedcat)
+Return
+CALCULATE(DISTINCTCOUNT(DimCustomer[CustomerKey]),customerwithallcat)
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+Naming variables in DAX
+
+- variable names should be unique they should not conflict with new table which added in future so use prefix as __ 
+- use more discruptive variable name in dax
+
+
+Table and column references using DAX variables
+
+- if we store any table in variable, so we can't reference new added column in that table variable directly
+- Always use table names for column references
+- Never use table names for measures
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+Dax Behaviour
+
+- whenever we create measure it automatically add calculate to that measure
+- Calculate function conver row context into filter context before any filter parameter given to calculate function.
+- in nested calculate function first perorm outer filter condition and then inner.
+- whenever we use time intelligence function behind calculate will perform to that expression.
+- whenever we define variable inside any function then it will calculate as per outer filter context.
+
+Last Date V/s Max Date
+
+- last date returns 1 row & 1 column value and we can use as table or scalar value
+- max date only return scalar values.
+
+
+
+
+

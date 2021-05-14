@@ -1,0 +1,318 @@
+Basic
+
+For user name of excel user
+add user values to cells Range ("B1").Value - Environ (UserName") 
+Range ("B2"). Value - Date.(this will give current date)
+Error
+Syntax  its whole line error
+Compile(spelling mistakes)
+for this error we also go debug-complile project,if there is two or more compile error then mention option explicit at top of module and run.
+Runtime if we get run time error means code run till that specific line.
+We can add bottons in ribbon and also create new ribbon tab with any name.
+Type always string in  "  " .
+
+Error handling (on error got 0,next,lable or line no)
+To prevent error-handling code from running when no error has occurred, place an Exit Sub, Exit Function, or Exit Property statement immediately before the error-handling routine.
+Without an On Error GoTo 0 statement, an error handler is automatically disabled when a procedure is exited.
+
+Selcecting cells
+
+We directly assign value also to cells
+If we want select multiple sheet then use false word after
+stop display alerts (Application.displayalert)
+For deletion specific then specified name if not then all delete
+If we not specified the where to sheet copy then it will create new book with copy sheet.
+If we want save workbook just click F1
+
+Variable
+
+If we want check any variables value the use local window.
+always declare variable and use option explicit. Explicit is very beneficial for any error in coding.
+If we want variable for all sub then add just down after option explicit
+If we use public variable then value will always we use last time value.
+Always use set word for define object variable
+
+Msgbox
+
+inster new line in msgbox concat string with vbnewline
+Input box
+If we want to convert any data type in any data then cdate,cstr.
+Input has some limitations inputs box always input string only date.
+For validation application.inputbox helpful.it will not give error after click on cancel button
+for overcome cancelclick error use inputbox string  and use strptr option =0
+with help of application.inputbox we can restrict user for specific value enter (type)
+
+Dialogbox (Dim dbox As FileDialog) 
+for appliy filter use `(dbox.Filters.Add "excel file", "*.xlsx?") if we use filterindex it will apply serial no wise
+for file search default value (dbox.ButtonName) or (dbox.InitialFileName)
+also use for file selection (Application.GetOpenFilename "excel file,*.xlsx", , , "hi am")
+store value of selection of file in variable using Dialogbox .Show (selection -1,cancel 0 value get)
+
+
+Array()
+
+For highest and lowest find we have to use lbound and ubound
+If we want find an word use partial or whole option and also we can use loop for findnext.
+arrays are use for more than one value assign to variable but requires same data type
+Multi dimensional arrays means we can give more than 1 dimensions.
+We can also reassign value to array using redim.if we want to preserve redim value then use word preserve.
+
+#1-Static Arrays - An array that has a Predefined count of value that can be stored in it.
+
+#2 - Dynamic array - Array with a not predefined count of value that it can handle.
+
+#3 – One-dimensional Array - An array that can hold only data either from rows or columns.
+
+#4 – Two-dimensional Array - An array that can store a value from the rows and columns
+
+#5 – Multidimensional Array - A multidimensional array is an array containing one or more arrays.
+
+Contants & enmureous
+Constant are fixed cant change or redim
+Enum's are bunch of constatns
+
+Library scripting runtime
+
+If we want to operation on folders and file then we have to import scripting run
+scripting.Filesystemobject must be create
+We can also open and write on text file using vba.filesystemobject.createtext file
+Text file string as textstrem
+for any modification in existing text file use appending option
+If we want allow user to select file then use file dialog window.
+using this we can open or save file.for customised dialog.filterindex also use to filter specific file type.
+for reading multiple line from text file just add same comment(txt.readline)
+open textfile (fso.opentxtfile) text file as textstream
+
+
+
+Creating word document
+
+Library Microsoft word
+create new instance of word.application,if word application already open then for doc use only activedocument
+Always use variable explicitly do not use autoistance has some drawbacks.
+Using library will not work in different versions of office so use create object method.or after all codeing replace word.app with object.
+If we are not using library then use const(no's) for action(methods)
+docuement addition use add & for close use close,for wdapp use .quit
+Use format for now in our own format.
+2007 n earlier version use doc n saveas but later use docx n saveas2
+If we are sending code with any one then use of .version method.(version control).
+Refer template.
+Rather formatting documents add bookmarks and paste directly data in documents.(doc.bookmarks)
+We also linktable with word for autorefresh.
+
+PPT
+
+opening and adding documents is same as word application and library also
+For text add to shapes use textframe
+And for slide background color change use slidemaster.colorschem
+For inserting textbox declare variable as shape.
+For temple apply use presentation.applytemp.
+If we want to check last character then use (instrev) for ext temp.ext
+
+Outlook
+
+ if we run application its on task manager procedure for outlook.exe 
+if we want chage mail type (body format) then go to option mail properties or we can also change using vba 
+if we want change signature then use rich format text on top of mail formatting
+ if we want html body text then use "h 1>text</h1"(close)
+for signature return type new line concatenate with text use vbcrlf .body 
+code order most imp in this case first mailformat then display n after that body text for html type new line execute using "
+"
+three tag on html table html fileext is htm <table> open 
+<tr> 
+<td>clomuni</td> 
+<tr>
+close </table>
+
+RTFbody is array of bytes
+Use strconv for string conversion
+Email body input by word editor use outlook.inspector it use for view and edit mails.its also allows to copy and paste from excel directly.
+For paste at specific location in mail body use wddoc.range(integer,integer)
+If we format email event then insert class module and use initialised method 
+Variable declare using private it only for that module.for want any event just put withevents
+Before variable and we can access event respect to that variable.
+Variable declare within sub are only for that particular sub.
+If we dont want email save yes/no box then use email.close(option as discard)
+Minimize mail email.getinspector.windowstat
+Show any window appactive (application.caption) its an window name.
+If we want insert pictures  in mail use word editor and doc.range.inlineshape
+If we change pictures  width then its will be shrink so use lookaspectratio is true
+
+Getting  maildata in excel
+If we want data of outlook inbox then use namespace method use olapp.getnamespace mapi
+Mapi is sets of all folder at outlook left side folder
+
+For access any folder use getdefaultfolder
+If we want shape last cell use bottomrightcell it we give you row no.
+If we want look on folder and sub folder then use 
+
+Recursion is the 'self-calling' of a VBA procedure (macro or function).
+With recursion you can run through a large number of loops by letting the macro call itself at all times.
+When do you use recursion ?
+- If there are many nested loops, or
+- If it is not known in advance how many loops will have to be passed through.
+If want replace character  in string use replace
+
+Finding  any mail and show at sheet
+ We first get data from email to excel and after that use folder.items.find
+For usre not select cell between  criteria  range then use application. Intersect
+When we get mail by subject line then re and fw also import fot such case usel left and mid functions 
+
+Getting maildata from another profile
+Consider another profile as folder & use folder.folder(subfolder) method for access 
+Outlook.store or sessions and namespace work same. 
+For sending mail using aonther profile use accounts.Display name
+
+Filtering  email
+Use important  method with find to filter data
+Mail.importance rights the number value i e 1 2 0 maximum  no means high imp.
+For filtering  we use jet and dasl filters.
+Use restrict method n we can also use method like folder - subfolder
+Jefilter limitation is its can stisfy the condition that any word contains in parameter.
+Using dasl filter 
+Always starr with @ SQL= shema its an case sensitive shemaname always on "  "
+In dasl filster we can use LIKE method for word contains in any parameter  use %(wildcard character)
+
+ActiveX data objects(Ms access)
+
+Microsoft  activex data object library  help to connect with any database 
+first we have to give connection string (adodb.connection) and save value variable ,most imp property is connectionstring
+connectionstring requires which database,security you have connect
+
+for acces databse   (Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\myFolder\myAccessFile.accdb;Persist Security Info=False;)
+for SQL server   (Provider=MSOLEDBSQL;Server=myServerName\theInstanceName;Database=myDataBase;Trusted_Connection=yes;)
+sql server string requires - server name & instance name = top of the server  , database name = folder name
+for open & close (con.Open & con.close)
+we can also get connection string directly from data-get external data-from sql or access
+
+recordset allows to store data from access,also need to create new instance (Set rd = New ADODB.Recordset)
+With rd (mandatory property for opening recordset )
+    .ActiveConnection = con (provide connection)
+
+    .Source = "sample"  (its table name) 
+we can also user here SQL query get data only requires data (also get query from access new query)
+we can also get query from sql server using right click open query on editor.
+for writing query in access use wildcard  char as * but while vba code use %, use iso 8601 date criteria for query its better
+for sqlserver use date in '__ '  & for access use #__#
+
+	
+    .LockType = adLockReadOnly (option for read,modify) if we not specify then by default readonly will apply if we use dynamic then it will slow down 		performance because go back and check whether data modify or not
+
+    .CursorType = adOpenForwardOnly ( option for cursor movement for reading) for last cell in databse after open use .CursorType = adOpenKeyset
+
+after that we want to copy data from database use (Sheet2.Range("a2").CopyFromRecordset rd(name of recordset))
+copy data not come with data field(top row) so we have to loop over field (Dim df As ADODB.Field)
+
+Insert,update and delete records from database
+for modify data in database use (.LockType = adLockOptimistic)
+if we update duplicate sr no then it will not update
+while updating data field not take gap between two cells
+rd.CancelUpdate will not work if cursor on BOF OR EOF user (rd.MoveFirst)
+if we want to undo data which we has delete use (con.BeginTrans &  con.CommitTrans(do) con.rollback(undo))
+delete will not work if there are multiple link table data(enforce referential integrity) so use cascase option from relationship edit properties
+
+User defined  Type`
+
+Type uses when we want multiple variables,its always declare on top of module.its by default public.we can change as per preference.
+Type por ( use type variable name in sub procee dim variable name as por)
+    id As Integer
+    fname As String
+    nos As Double
+End Type
+for creating enumeration(after equal to values) ,combining type & enum as follows
+enum nos(use nos as between type like id as nos)
+	type value which requires to popup after equal to
+end enum
+if we want value of enum in msgbox then use function (by defauls its will give sr no contains in enum)
+we also combine multiple Type for simplification like enum & type combine
+if we use two Type in the same module then we have declare in correct order otherwise get compile error.
+
+
+Collections & Dictionary
+
+there are some default collections in excel eg. worksheets,workbooks,charts.
+for declaring new collection use (Set mycollection = New Collection) & then add items to collection
+adding items to custom collection (mycollection.Add Worksheets.Add, "sheet66" [collection name])
+for multiple object in collection then use object
+Dictionary as part of scripting.runtime library, as compare to collection dictionary has more option & properties
+while remove items from collections dictionary requires key & collection requires index no's. dictionary also has remove all option
+for refering item in dictionary as per index no then use (dictionary.items)
+if dictionary does no has any item key which you provide then its will create new item with blank name
+collection item key are not case sensitive but dictionary key's are case sensitive so use (dictionary.comparemode = textcompare)
+
+Saving workbooks as PDF
+
+for saving file in pdf use (ThisWorkbook.ExportAsFixedFormat xlTypePDF) 
+if filepath not given then it will save to excel save path
+for each sheet we want each pdf then loop over collection of sheets.
+
+Byval & Byref
+
+if we want any value to another sub then we use Byval & Byref use. default Byref apply
+Byref means it will change original value of variable,
+Byval menas it will create new variable with same value, but its not change original value.
+for Byref compalsory we have to call sub as [ call sub name () ] ' call ' word mandatory for this.
+
+Speak 
+
+For speak in excel use [ Application.Speech.Speak ("i like icecream") ]
+if want ro change voice then goto speech recognition setting 
+
+Finding lastcell & blank row in sheet
+
+for find last row with blank rows in data use ( Sheet1.Range("a1048576").End (xlUp) )
+for not define exact not of row then use ( Sheet1.Cells(ActiveSheet.Rows.Count, 1).End (xlUp) )
+filling blankcell in data ( Sheet1.Range("a1").CurrentRegion.SpecialCells (xlCellTypeBlanks) )
+usedrange & currentregion are same but currentregion on select value which from specific location & Userange select last range use by user
+last cell can get also by ( Sheet1.Range("a1").SpecialCells (xlCellTypeLastCell) ) but if clear that cell it will show same cell , Usedrange not shown same
+if we want same property of xlCellTypeLastCell just like Usedrange then just save workbook and run again.
+
+
+Querying web pages using Querytable
+its same as we follow Data- from web.
+for inserting querytable use [ Set qt = Sheet2.QueryTables.Add("URL;" & "http://www.wiseowl.co.uk/courses/", Sheet2.Range("a1")) & qt.Refresh ] tables
+for querytable property use as follow
+With qt
+    .RefreshOnFileOpen = True
+    .Name = "mytable"
+    .WebFormatting = xlWebFormattingAll,xlWebFormattingNone,
+    ..WebSelectionType = xlSpecifiedTables its specifit table or entire page , all tables
+    .WebTables = 7
+    .Refresh
+End With
+
+
+Scapping data from web (both internet explorer & html library requires )
+
+open internet explorer use (Set ie = New SHDOCVW. InternetExplorer) 
+for navigate string where dont mention http
+after opening ie code is running so use ( Do While ie.readyState <> READYSTATE_COMPLETE And ie. Busy)
+set web page as htmldocument ( Dim htmldoc As MSHTML.HTMLDocument & Set htmldoc = ie.document )
+for getting tags from html web page use ( Dim h As MSHTML.IHTMLElement & 
+Dim hs As MSHTML.IHTMLElementCollection [ Set hs =htmldoc.getElementsByTagName("table") ]
+ all link from web page (h.getAttribute("href") )
+for looking under tags use (h.children)
+
+Get data from xml library
+Dim xmlie As New MSXML2.XMLHTTP60 & xmlpage.Open "GET", "https://www.x-rates.com/", False [ for opening link ]
+xmlpage.send
+htmldoc.body.innerHTMLxmlpage.responseText [ web document ]
+
+Webscrapping of Multiplepage
+htmldoc.getelementbyClassname only work for first htmldoc not for childrean
+
+
+
+
+VBA Class Module
+
+Class module is same as fuction
+If any class exucated in normal module the n it goes to class module
+We can't  directly  execute  code in class module.
+Same as class we use public propert let,get,set method to validate property.
+If we want to use class module whthin another project the reference class and change properties.
+But you cant create new instance so use function.
+
+
+
+

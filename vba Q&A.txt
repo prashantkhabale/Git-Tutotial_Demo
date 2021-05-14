@@ -1,0 +1,128 @@
+1) Explain what is VBA or Visual Basic for Applications?
+
+VBA stands for Visual Basic for Applications; it is an event driven programming language developed by Microsoft. It is predominantly used with Microsoft office applications like MS-word, MS-Access, and MS-Excel.
+
+2) Mention where you can write your VBA program for Macro?
+
+Module is the place where you can write VBA program for Macro, to insert a Module navigate to Insert ->Module
+
+3) Mention what are the comments style used in VBA?
+
+Comments are used to document the program logic and the user information with which other programmers can work seamlessly on the same code in future. There are mainly two methods in VBA to represent comments.
+
+Any statement that begins with a single quote is treated as comment
+Or you can use statement REM instead of single quotation mark (')
+4) In VBA how we can declare variable and constant?
+
+In VBA, variable can be declared with the keyword “DIM” while constant is declared with keyword “Const.”
+
+5) What are the data types in VBA?
+
+Data types in VBA are classified into two categories
+
+Numeric Data type	Non-numeric Data type
+Byte	String (fixed length)
+Integer	String (variable length)
+Long	Date
+Single	Boolean
+Double	Object
+Currency	Variant (numeric)
+Decimal	Variant (text)
+VBA Interview Questions
+
+6) Explain what is ADO, ODBC and OLEDB?
+
+ADO: ActiveX Data Objects or ADO is a universal data access framework that encompasses the functionality of DAO
+
+ODBC: Open Database Connectivity or ODBC is a technology that enables a database client application connect to an external database
+
+OLEDB: It is a low-level programming interface designed to access a wide variety of data access object linking and embedding (OLE)
+
+7) Explain about function pointers in VBA?
+
+The VBA (Visual Basic Information) have flexible applications, but there is a limitation to a function pointer in VBA. Windows API has inadequate support for function pointers because it has the ability to use the function but not the functional support to call back the function. It has inbuilt support for the call but not for a callback.
+
+8) Explain how “reference counting” in VBA is done?
+
+In VBA, soon a variable goes out of scope, the reference counter on the reference object is decremented. When you assign the object reference to another variable, the reference counter is incremented. While when your reference count reaches to zero it terminates the event.
+
+9) How can you decrease the reference counter explicitly?
+
+To decrease the reference counter explicitly, you need to set a variable to “Nothing”.
+
+10) Explain what is COM (Component Object Model) objects in VBA?
+
+COM objects are usually .dll files, and are compiled executable programs.
+
+11) Explain how can you dial a phone number through VBA?
+
+In order to dial a phone number through VBA, you need to follow the following steps
+
+Shell command in VBA can be used to start the dialer present in Windows O.S
+To connect to your modem, phone number can be used
+With the help of send keys and shell command, you can dial to your user
+Sendkey dictate the windows to dial according to the keystrokes of the application while Shell activates the Windows application
+A macro can be used to initiate the card file program which triggers the auto dialer feature
+
+12) Explain what is the meaning of “Option Explicit”? Where it should be used?
+
+“Option Explicit” makes the declaration of variables mandatory. Line explicit function makes the compiler to determine all the variables that are not declared by the dim statement. This command diminishes the problem of type errors significantly. It is used in VBA because it deals with information rich application in which type errors are common. Before starting any, sub-procedures it can be used inside a module.
+
+13) Explain how can you pass arguments to VBA functions?
+
+When arguments are passed to VBA functions, they can be passed in two ways
+
+ByVal: When argument is passed by Value, then it means that only value is passed to the procedure, and any changes that are made to the argument inside the procedure will be lost when the procedure is exited
+ByRef: When the argument is passed by reference than the actual address of the argument is passed to the procedure. Any changes that are made to the argument inside the procedure will be recalled when the procedure is exited
+
+14) Mention the method that are called from the ObjectContext object to notify MTS that the transaction was unsuccessful or successful?
+
+Setabort and setcomplete method are called from the ObjectContext object to notify MTS that the transaction was unsuccessful or unsuccessful
+
+15) What is the code to find a last used Row in a column or last used Column of a row?
+
+To find the last row in a column, the command used is End(xlUp) and to find last column in a row, the command used is End(xlToLeft).
+
+16) Mention the difference between the Subroutines and Functions in VBA?
+
+The difference between the Subroutines and Functions is that
+
+Subroutines never return a value, but functions does return values
+Subroutines could change the values of the actual arguments while a function could not change the value of actual arguments
+
+17) Explain what is the difference between CurrentRegion properties and UsedRange?
+
+CurrentRegion: The current region is a range bounded by any combination of blank columns and rows
+UsedRange: This property is used to select the range of used cells on a worksheet. It returns a Range object that represents the used range on the specific worksheet
+
+18) Explain how to debug a VBA code?
+
+To debug a VBA code, follow the steps
+
+Using Breakpoints (F9)
+Step by step execution (F8)
+Print & Immediate Window and Watch the window
+
+19) How can you stop VBA script when it goes into the infinite loop?
+
+By pressing Cntrl+ Pause Break key one can stop VBA script when it goes into infinite loop.
+
+20) Mention which property of menu cannot be set at runtime?
+
+At runtime Name property of menu cannot be set.
+
+21) Mention whether VBA have dictionary structure?
+
+Yes, VBA does have a dictionary structure. You can set a reference to dictionary like
+
+Set dict = CreateObject(“Scripting.Dictionary”)
+OR Dim dict as New Scripting.Dictionary
+
+22) Mention how can you comment and uncomment blocks of code in the office VBA editor?
+
+In office VBA editor, you can comment and uncomment blocks of code by following steps
+
+In the VBA editor go to View -> Toolbars -> Customise… OR right click on the tool bar and select Customise
+Select the edit menu on the left, under the commands tab
+When you scroll down you can see two icons, “Comment Block” and “Uncomment ”
+When you drag and drop these onto your toolbar, you will have an easy access to highlight a block of code and do action on it
