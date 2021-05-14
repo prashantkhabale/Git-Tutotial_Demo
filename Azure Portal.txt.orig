@@ -65,12 +65,13 @@ System vriables in azure data factory
 
 - system variables available at three level pipline level, schedule trigger, tumbling window trigger level.
 
-
+<<<<<<< HEAD
 
 new content not saved
-
+=======
 new content - SRK
 
+>>>>>>> 1a5b59caebf9e6fc78a99027b01e837ca6988bbb
 
 
 
